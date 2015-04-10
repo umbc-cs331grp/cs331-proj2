@@ -1,0 +1,11 @@
+#box {
+    background-color: #eee;
+    padding: 8px;
+}
+table.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+td {
+    padding: 4px;
+}
