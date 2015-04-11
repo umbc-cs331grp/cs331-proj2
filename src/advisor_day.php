@@ -35,8 +35,8 @@ $username = $_POST['username'];
 
 $common = new Common($debug);
 
-$mainTable = getMainName($username);
-$slotsTable = getSlotsName($username);
+$mainTable = getDaysTableName($username);
+$slotsTable = getSlotsTableName($username);
 
 echo "<h4 align='center'>";
 switch ($dayNum) {

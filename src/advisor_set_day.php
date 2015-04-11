@@ -35,8 +35,8 @@ $dayNum = (int)$_POST['day_num'];
 $username = $_POST['username'];
 
 $common = new Common($debug);
-$mainTable = getMainName($username);
-$slotsTable = getSlotsName($username);
+$mainTable = getDaysTableName($username);
+$slotsTable = getSlotsTableName($username);
 
 // Update the database
 $query = "SELECT * FROM $mainTable WHERE day = $dayNum";

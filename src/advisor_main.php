@@ -34,7 +34,15 @@ $username = @($_POST['username']);
 
 
 // Main part
-createTables($username, $debug);
+createTables($debug);
+
+// TODO remove later
+$common = new Common($debug);
+if (!rowExists($common, getMainTableName(), "adviser_id", $username)) {
+    setupRowForAdviser($common, getMainTableName(), getDaysTableName(), $username, "temp");
+}
+
+// TODO make sure advisers are added?
 
 // Buttons for each of the 5 days of the week for editing availability and printing a schedule
 echo "<table class=\"center\">\n";
