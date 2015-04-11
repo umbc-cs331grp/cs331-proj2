@@ -156,7 +156,7 @@ echo "</form>\n";
 
 echo "<br>\n";
 // Button to return to choice of days without updating schedule
-echo "<table class='center'><tr><td><form name=\"back_to_main\" method=\"post\" action=\"advisor_main.php\">\n";
+echo "<table class='center'><tr><td><form name=\"back_to_main\" method=\"post\" action=\"adviser_main.php\">\n";
 echo "    <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
 echo "    <input type=\"submit\" value=\"Return to Day Selection\" class='btn btn-default'>\n";
 echo "</form></td></tr></table>\n";

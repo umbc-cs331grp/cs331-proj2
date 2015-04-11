@@ -57,7 +57,7 @@ echo "</td>\n</tr>\n";
 echo "<tr>\n<td align='center'>\n";
 
 // Button to return to editing that day
-echo "<form name=\"back_to_day\" method=\"post\" action=\"advisor_day.php\">\n";
+echo "<form name=\"back_to_day\" method=\"post\" action=\"adviser_day.php\">\n";
 echo "    <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
 echo "    <input type=\"hidden\" name=\"day_num\" value=\"$dayNum\">\n";
 echo "    <input type=\"submit\" value=\"Return to Editing\n";
@@ -85,7 +85,7 @@ echo "</td>\n</tr>\n";
 echo "<tr>\n<td align='center'>\n";
 
 // Button to go back to main page
-echo "<form name=\"back_to_main\" method=\"post\" action=\"advisor_main.php\">\n";
+echo "<form name=\"back_to_main\" method=\"post\" action=\"adviser_main.php\">\n";
 echo "    <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
 echo "    <input type=\"submit\" value=\"Return to Day Selection\" class='btn btn-default'>\n";
 echo "</form>\n";
