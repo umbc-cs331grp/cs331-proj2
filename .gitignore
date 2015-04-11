@@ -2,3 +2,4 @@
 !/src
 !/src/*
 /src/CommonMethods.php
+!README.md
