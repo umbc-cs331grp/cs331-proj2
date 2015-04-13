@@ -36,13 +36,17 @@ $username = @($_POST['username']);
 // Main part
 createTables($debug);
 
-// TODO remove later
 $common = new Common($debug);
 if (!rowExists($common, getMainTableName(), "adviser_id", $username)) {
-    setupRowForAdviser($common, getMainTableName(), getDaysTableName(), $username, "temp");
+    echo "<table>";
+    echo "<tr align='center'><td>You are not registered as an adviser.<br>If you believe this is in error, please contact the head of the department to resolve the issue.</td></tr>";
+    echo "<tr align='center'><td>";
+    echo "<form name=\"logout\" action=\"adviser_login.html\">\n";
+    echo "    <input type=\"submit\" value=\"Return to Login\" class='btn btn-default'>\n";
+    echo "</form>\n";
+    echo "</td></tr>";
+    return;
 }
-
-// TODO make sure advisers are added?
 
 // Buttons for each of the 5 days of the week for editing availability and printing a schedule
 echo "<table class=\"center\">\n";
@@ -131,10 +135,11 @@ echo "                <input type=\"submit\" value=\"Print Schedule\" class='btn
 echo "            </form>\n";
 echo "        </td>\n";
 echo "    </tr>\n";
+
+// Logout
 echo "    <tr>\n";
 echo "        <td colspan='3' align='center'>\n";
 echo "    <br>\n";
-// Logout
 echo "<form name=\"logout\" action=\"adviser_login.html\">\n";
 echo "    <input type=\"submit\" value=\"Logout\" class='btn btn-default'>\n";
 echo "</form>\n";
