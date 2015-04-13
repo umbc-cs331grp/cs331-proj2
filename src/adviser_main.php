@@ -49,8 +49,31 @@ if (!rowExists($common, getMainTableName(), "adviser_id", $username)) {
 }
 
 // Buttons for each of the 5 days of the week for editing availability and printing a schedule
+
 echo "<table class=\"center\">\n";
-echo "    <tr>\n";
+
+for ($i = 1; $i <= 10; $i++) {
+    echo "    <tr>\n";
+    // TODO replace with some way of getting actual day name / date
+    echo "        <td>Day $i</td>\n";
+    echo "        <td>\n";
+    echo "            <form name=\"edit_day\" method=\"post\" action=\"adviser_day.php\">\n";
+    echo "                <input type=\"hidden\" name=\"day_num\" value=\"$i\">\n";
+    echo "                <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
+    echo "                <input type=\"submit\" value=\"Edit Availability\" class='btn btn-default'>\n";
+    echo "            </form>\n";
+    echo "        </td>\n";
+    echo "        <td>\n";
+    echo "            <form name=\"print_schedule\" method=\"post\" action=\"adviser_print.php\" target='_blank'>\n";
+    echo "                <input type=\"hidden\" name=\"day_num\" value=\"$i\">\n";
+    echo "                <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
+    echo "                <input type=\"submit\" value=\"Print Schedule\" class='btn btn-default'>\n";
+    echo "            </form>\n";
+    echo "        </td>\n";
+    echo "    </tr>\n";
+}
+
+/*echo "    <tr>\n";
 echo "        <td>Monday</td>\n";
 echo "        <td>\n";
 echo "            <form name=\"edit_day\" method=\"post\" action=\"adviser_day.php\">\n";
@@ -134,7 +157,7 @@ echo "                <input type=\"hidden\" name=\"username\" value=\"$username
 echo "                <input type=\"submit\" value=\"Print Schedule\" class='btn btn-default'>\n";
 echo "            </form>\n";
 echo "        </td>\n";
-echo "    </tr>\n";
+echo "    </tr>\n";*/
 
 // Logout
 echo "    <tr>\n";
