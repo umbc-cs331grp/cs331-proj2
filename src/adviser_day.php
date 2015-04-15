@@ -35,11 +35,19 @@ $username = $_POST['username'];
 
 $common = new Common($debug);
 
-$mainTable = getDaysTableName($username);
+// Get day id
+$mainTable = getMainTableName();
+$stmt = "SELECT * FROM $mainTable WHERE adviser_id = '$username'";
+$rs = $common->executeQuery($stmt, "get_day_id");
+$row = mysql_fetch_array($rs);
+$day_id = (int)$row["day$dayNum"];
+
+
+$daysTable = getDaysTableName($username);
 $slotsTable = getSlotsTableName($username);
 
 echo "<h4 align='center'>";
-switch ($dayNum) {
+/*switch ($dayNum) {
     case 1:
         print("Monday");
         break;
@@ -55,20 +63,22 @@ switch ($dayNum) {
     case 5:
         print("Friday");
         break;
-}
+}*/
+print("Day $dayNum");
 print("</h4>");
 
-if (!rowExists($common, $mainTable, "day", $dayNum)) {
-    setupRowForDay($common, $mainTable, $slotsTable, $dayNum);
-}
+/*if (!rowExists($common, $daysTable, "day", $dayNum)) {
+    setupRowForDay($common, $daysTable, $slotsTable, $dayNum);
+}*/
 
 // Get data for day
-$query = "SELECT * FROM " . $mainTable . " WHERE day = " . $dayNum;
+$query = "SELECT * FROM $daysTable WHERE day_id = $day_id";
 $rs = $common->executeQuery($query, "get_day");
 $row = mysql_fetch_array($rs);
 
-echo " method='post' action='advisor_set_dadvisor_set_day.php'>";
+echo "<form method='post' action='adviser_set_day.php'>";
 echo "<input type=\"hidden\" name=\"day_num\" value=\"$dayNum\">";
+echo "<input type=\"hidden\" name=\"day_id\" value=\"$day_id\">";
 echo "<input type=\"hidden\" name=\"username\" value=\"$username\">";
 echo "<table class='center'>\n";
 // Loop over time slots
@@ -122,7 +132,7 @@ for ($i = 1; $i <= 14; $i++) {
     echo "<td>\n";
 
     // Print radio buttons for 3 choices. Check whichever it is currently set to based on database
-    $slotQuery = "SELECT type FROM " . $slotsTable . " WHERE slot_id = " . $row["slot" . $i];
+    $slotQuery = "SELECT type FROM $slotsTable WHERE slot_id = " . $row["slot" . $i];
     $slotRS = $common->executeQuery($slotQuery, "get_slot");
     $slotRow = mysql_fetch_array($slotRS);
     $slotType = $slotRow['type'];
