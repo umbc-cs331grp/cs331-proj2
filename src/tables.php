@@ -74,6 +74,7 @@ function createTables($debug) {
         student9 TEXT NULL,
         student10 TEXT NULL,
         Major TEXT NULL,
+        Appt_Date DATE NULL,
         repeatable TINYINT(1) DEFAULT '0'
         )";
     $common->executeQuery($createTableQuery, "slots_setup");
