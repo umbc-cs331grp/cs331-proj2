@@ -32,14 +32,15 @@ include_once("tables.php");
 $debug = false;
 
 $dayNum = (int)$_POST['day_num'];
+$day_id = (int)$_POST['day_id'];
 $username = $_POST['username'];
 
 $common = new Common($debug);
-$mainTable = getDaysTableName($username);
+$daysTable = getDaysTableName($username);
 $slotsTable = getSlotsTableName($username);
 
 // Update the database
-$query = "SELECT * FROM $mainTable WHERE day = $dayNum";
+$query = "SELECT * FROM $daysTable WHERE day_id = $day_id";
 $rs = $common->executeQuery($query, "get_day");
 $row = mysql_fetch_array($rs);
 
@@ -61,7 +62,7 @@ echo "<form name=\"back_to_day\" method=\"post\" action=\"adviser_day.php\">\n";
 echo "    <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
 echo "    <input type=\"hidden\" name=\"day_num\" value=\"$dayNum\">\n";
 echo "    <input type=\"submit\" value=\"Return to Editing\n";
-switch ($dayNum) {
+/*switch ($dayNum) {
     case 1:
         print("Monday");
         break;
@@ -77,7 +78,8 @@ switch ($dayNum) {
     case 5:
         print("Friday");
         break;
-}
+}*/
+print("Day $dayNum");
 echo "'s Schedule\"  class='btn btn-default'>\n";
 echo "</form>\n";
 

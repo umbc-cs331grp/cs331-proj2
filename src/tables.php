@@ -5,12 +5,25 @@ include_once("CommonMethods.php");
 $MAIN_TABLE = "tbl_advising_main";
 $DAYS_TABLE = "tbl_advising_days";
 $SLOTS_TABLE = "tbl_advising_slots";
+$STUDENTS_TABLE = "tbl_advising_students";
+$APPOINTMENTS_IN_DAY = 14;
+$NUMBER_DAYS = 10;
 
 // Creates the 3 tables
 function createTables($debug) {
-    global $MAIN_TABLE, $DAYS_TABLE, $SLOTS_TABLE;
+    global $MAIN_TABLE, $DAYS_TABLE, $SLOTS_TABLE, $STUDENTS_TABLE;
 
     $common = new Common($debug);
+
+    $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $STUDENTS_TABLE . "(
+        id VARCHAR(10) NOT NULL PRIMARY KEY,
+        student_id VARCHAR(7) NOT NULL,
+        student_name TEXT NOT NULL,
+        student_major TEXT NOT NULL,
+        appointment_id VARCHAR(10)
+        )";
+
+    $common->executeQuery($createTableQuery, "student_table");
 
     $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $MAIN_TABLE . "(
         adviser_id VARCHAR(10) NOT NULL PRIMARY KEY,
@@ -50,16 +63,18 @@ function createTables($debug) {
     $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $SLOTS_TABLE . "(
         slot_id INT(8) UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
         type CHAR NOT NULL,
-        student1 TEXT,
-        student2 TEXT,
-        student3 TEXT,
-        student4 TEXT,
-        student5 TEXT,
-        student6 TEXT,
-        student7 TEXT,
-        student8 TEXT,
-        student9 TEXT,
-        student10 TEXT
+        student1 TEXT NULL,
+        student2 TEXT NULL,
+        student3 TEXT NULL,
+        student4 TEXT NULL,
+        student5 TEXT NULL,
+        student6 TEXT NULL,
+        student7 TEXT NULL,
+        student8 TEXT NULL,
+        student9 TEXT NULL,
+        student10 TEXT NULL,
+        Major TEXT NULL,
+        repeatable TINYINT(1) DEFAULT '0'
         )";
     $common->executeQuery($createTableQuery, "slots_setup");
 }
@@ -70,10 +85,26 @@ function getMainTableName() {
     return $MAIN_TABLE;
 }
 
+function getStudentsTableName() {
+    global $STUDENTS_TABLE;
+    return $STUDENTS_TABLE;
+}
+
 // Gets the name of the days table
 function getDaysTableName() {
     global $DAYS_TABLE;
     return $DAYS_TABLE;
+}
+
+function getAppointmentsInDay() {
+    global $APPOINTMENTS_IN_DAY;
+    return $APPOINTMENTS_IN_DAY;
+}
+
+function getNumberOfDays()
+{
+    global $NUMBER_DAYS;
+    return $NUMBER_DAYS;
 }
 
 // Gets the name of the slots table
@@ -99,7 +130,7 @@ function setupRowForAdviser($common, $mainTable, $daysTable, $adviser_id, $advis
         " (adviser_id, adviser_name, day1, day2, day3, day4, day5, day6, day7,
         day8, day9, day10)
         VALUES ('" . $adviser_id . "', '" . $adviser_name . "'";
-    for ($i = 1; $i <= 10; $i++) {
+    for ($i = 1; $i <= getNumberOfDays(); $i++) {
         $dayID = setupRowForDay($common, $daysTable, getSlotsTableName());
         $query .= ", $dayID";
     }
@@ -115,7 +146,7 @@ function setupRowForDay($common, $daysTable, $slotsTable) {
         " (slot1, slot2, slot3, slot4, slot5, slot6, slot7,
         slot8, slot9, slot10, slot11, slot12, slot13, slot14)
         VALUES (";
-    for ($i = 1; $i <= 14; $i++) {
+    for ($i = 1; $i <= getAppointmentsInDay(); $i++) {
         $slotQuery = "INSERT INTO " . $slotsTable . " (type) VALUES ('N')";
         $common->executeQuery($slotQuery, "init_slots");
         $slotID = mysql_insert_id();
