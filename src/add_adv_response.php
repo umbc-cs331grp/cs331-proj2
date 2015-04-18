@@ -33,6 +33,8 @@ include_once("tables.php");
 $name = $_POST['name'];
 $id = $_POST['id'];
 
+createTables($debug);
+
 $common = new Common($debug);
 
 if (rowExists($common, getMainTableName(), "adviser_id", $id)) {
