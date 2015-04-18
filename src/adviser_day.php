@@ -19,9 +19,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div id="box">
 
 <?php
@@ -129,12 +129,52 @@ for ($i = 1; $i <= 14; $i++) {
             echo "<td>3:30 PM</td><td>-</td><td>4:00 PM</td>\n";
             break;
     }
-    echo "<td>\n";
 
-    // Print radio buttons for 3 choices. Check whichever it is currently set to based on database
-    $slotQuery = "SELECT type FROM $slotsTable WHERE slot_id = " . $row["slot" . $i];
+    $slotQuery = "SELECT * FROM $slotsTable WHERE slot_id = " . $row["slot" . $i];
     $slotRS = $common->executeQuery($slotQuery, "get_slot");
     $slotRow = mysql_fetch_array($slotRS);
+
+    // Print major options
+    $major = $slotRow['major'];
+    echo "<td></td>";
+    echo "<td>Major: ";
+    echo "<select name='slot_major_$i'>";
+    echo "    <option value='NULL'";
+    if (($major != "CMSC") && ($major != "CMPE") && ($major != "ENME") && ($major != "ENCH") && ($major != "ENES")) {
+        echo " selected='selected'";
+    }
+    echo ">All</option>";
+    echo "    <option value='CMSC'";
+    if ($major == "CMSC") {
+        echo " selected='selected'";
+    }
+    echo ">CMSC</option>";
+    echo "    <option value='CMPE'";
+    if ($major == "CMPE") {
+        echo " selected='selected'";
+    }
+    echo ">CMPE</option>";
+    echo "    <option value='ENME'";
+    if ($major == "ENME") {
+        echo " selected='selected'";
+    }
+    echo ">ENME</option>";
+    echo "    <option value='ENCH'";
+    if ($major == "ENCH") {
+        echo " selected='selected'";
+    }
+    echo ">ENCH</option>";
+    echo "    <option value='ENES'";
+    if ($major == "ENES") {
+        echo " selected='selected'";
+    }
+    echo ">ENES</option>";
+    echo "</select>";
+    echo "</td>\n";
+
+
+    // Print radio buttons for 3 choices. Check whichever it is currently set to based on database
+    echo "<td>\n";
     $slotType = $slotRow['type'];
     echo "<input type=\"radio\" name=\"slot" . $i . "\" value=\"N\"";
     if ($slotType == "N") {
@@ -152,12 +192,66 @@ for ($i = 1; $i <= 14; $i++) {
     if ($slotType == "G") {
         echo " checked=\"checked\"";
     }
-    echo "> Group\n";
-    echo "</td>\n";
+    echo "> Group (size:";
+
+
+    // Group size
+    $groupSize = $slotRow['group_size'];
+    echo "<select name='slot_group_size_$i'>";
+    echo "    <option value='10'";
+    if (($groupSize != "9") && ($groupSize != "8") && ($groupSize != "7") && ($groupSize != "6") && ($groupSize != "5")) {
+        echo " selected='selected'";
+    }
+    echo ">10</option>";
+    echo "    <option value='9'";
+    if ($groupSize == "9") {
+        echo " selected='selected'";
+    }
+    echo ">9</option>";
+    echo "    <option value='8'";
+    if ($groupSize == "8") {
+        echo " selected='selected'";
+    }
+    echo ">8</option>";
+    echo "    <option value='7'";
+    if ($groupSize == "7") {
+        echo " selected='selected'";
+    }
+    echo ">7</option>";
+    echo "    <option value='6'";
+    if ($groupSize == "6") {
+        echo " selected='selected'";
+    }
+    echo ">6</option>";
+    echo "    <option value='5'";
+    if ($groupSize == "5") {
+        echo " selected='selected'";
+    }
+    echo ">5</option>";
+    echo "</select>";
+    echo ")</td>\n";
+
     echo "</tr>\n";
 }
+
+// Day can be repeated
+if ($dayNum > 5) {
+    $query = "SELECT weekly FROM $daysTable WHERE day_id = $day_id";
+    $rs = $common->executeQuery($query, "get_weekly");
+    $row = mysql_fetch_array($rs);
+    $weekly = $row['weekly'];
+
+    echo "<tr><td colspan='8' align='center'>";
+    echo "<input type='checkbox' name='weekly' value='T'";
+    if ($weekly == "1") {
+        echo " checked";
+    }
+    echo "> Use Weekly";
+    echo "</td>";
+}
+
 // Button to update schedule
-echo "<tr><td colspan='6' align='center'>";
+echo "<tr><td colspan='8' align='center'>";
 echo "<input type=\"submit\" value=\"Update\" class='btn btn-default'>";
 echo "</td>";
 
@@ -175,7 +269,7 @@ echo "</form></td></tr></table>\n";
 
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
         </div>
     </div>
 </div>

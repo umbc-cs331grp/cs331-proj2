@@ -34,12 +34,13 @@ $debug = false;
 $dayNum = (int)$_POST['day_num'];
 $day_id = (int)$_POST['day_id'];
 $username = $_POST['username'];
+$weekly = $_POST['weekly'];
 
 $common = new Common($debug);
-$daysTable = getDaysTableName($username);
-$slotsTable = getSlotsTableName($username);
+$daysTable = getDaysTableName();
+$slotsTable = getSlotsTableName();
 
-// Update the database
+// Update the slots in the database
 $query = "SELECT * FROM $daysTable WHERE day_id = $day_id";
 $rs = $common->executeQuery($query, "get_day");
 $row = mysql_fetch_array($rs);
@@ -47,8 +48,22 @@ $row = mysql_fetch_array($rs);
 for ($i = 1; $i <= 14; $i++) {
     $slotID = $row["slot$i"];
     $slotType = $_POST["slot$i"];
-    $slotQuery = "UPDATE $slotsTable SET type = '$slotType' WHERE slot_id = $slotID";
+    $major = $_POST["slot_major_$i"];
+    if ($major != "NULL") {
+        $major = "'$major'";
+    }
+    $groupSize = $_POST["slot_group_size_$i"];
+    $slotQuery = "UPDATE $slotsTable SET type = '$slotType', major = $major, group_size = '$groupSize' WHERE slot_id = $slotID";
     $common->executeQuery($slotQuery, "update_slots");
+}
+
+// Update whether or not day is repeated weekly
+if ($weekly == "T") {
+    $query = "UPDATE $daysTable SET weekly = 1 WHERE day_id = '$day_id'";
+    $common->executeQuery($query, "update_weekly");
+} else {
+    $query = "UPDATE $daysTable SET weekly = 0 WHERE day_id = '$day_id'";
+    $common->executeQuery($query, "update_weekly");
 }
 
 echo "<table class='center' align='center'>\n";
