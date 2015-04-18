@@ -56,26 +56,27 @@ function createTables($debug) {
         slot11 INT(8) NOT NULL,
         slot12 INT(8) NOT NULL,
         slot13 INT(8) NOT NULL,
-        slot14 INT(8) NOT NULL
+        slot14 INT(8) NOT NULL,
+        weekly TINYINT(1) NOT NULL DEFAULT '0'
         )";
     $common->executeQuery($createTableQuery, "days_setup");
 
     $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $SLOTS_TABLE . "(
         slot_id INT(8) UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
         type CHAR NOT NULL,
-        student1 TEXT NULL,
-        student2 TEXT NULL,
-        student3 TEXT NULL,
-        student4 TEXT NULL,
-        student5 TEXT NULL,
-        student6 TEXT NULL,
-        student7 TEXT NULL,
-        student8 TEXT NULL,
-        student9 TEXT NULL,
-        student10 TEXT NULL,
-        Major TEXT NULL,
-        Appt_Date DATE NULL,
-        repeatable TINYINT(1) DEFAULT '0'
+        group_size INT(4) UNSIGNED NOT NULL DEFAULT 10,
+        major VARCHAR(4),
+        student1 TEXT,
+        student2 TEXT,
+        student3 TEXT,
+        student4 TEXT,
+        student5 TEXT,
+        student6 TEXT,
+        student7 TEXT,
+        student8 TEXT,
+        student9 TEXT,
+        student10 TEXT,
+        appt_date DATE
         )";
     $common->executeQuery($createTableQuery, "slots_setup");
 }
