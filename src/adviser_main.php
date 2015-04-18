@@ -48,14 +48,40 @@ if (!rowExists($common, getMainTableName(), "adviser_id", $username)) {
     return;
 }
 
-// Buttons for each of the 5 days of the week for editing availability and printing a schedule
+// Buttons for each of the days for editing availability and printing a schedule
 
 echo "<table class=\"center\">\n";
 
 for ($i = 1; $i <= 10; $i++) {
     echo "    <tr>\n";
     // TODO replace with some way of getting actual day name / date
-    echo "        <td>Day $i</td>\n";
+    print("<td>");
+    switch ($i) {
+        case 1:
+        case 6:
+            print("Monday");
+            break;
+        case 2:
+        case 7:
+            print("Tuesday");
+            break;
+        case 3:
+        case 8:
+            print("Wednesday");
+            break;
+        case 4:
+        case 9:
+            print("Thursday");
+            break;
+        case 5:
+        case 10:
+            print("Friday");
+            break;
+    }
+    print("</td>\n");
+
+
+    //echo "        <td>Day $i</td>\n";
     echo "        <td>\n";
     echo "            <form name=\"edit_day\" method=\"post\" action=\"adviser_day.php\">\n";
     echo "                <input type=\"hidden\" name=\"day_num\" value=\"$i\">\n";
@@ -72,92 +98,6 @@ for ($i = 1; $i <= 10; $i++) {
     echo "        </td>\n";
     echo "    </tr>\n";
 }
-
-/*echo "    <tr>\n";
-echo "        <td>Monday</td>\n";
-echo "        <td>\n";
-echo "            <form name=\"edit_day\" method=\"post\" action=\"adviser_day.php\">\n";
-echo "                <input type=\"hidden\" name=\"day_num\" value=\"1\">\n";
-echo "                <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
-echo "                <input type=\"submit\" value=\"Edit Availability\" class='btn btn-default'>\n";
-echo "            </form>\n";
-echo "        </td>\n";
-echo "        <td>\n";
-echo "            <form name=\"print_schedule\" method=\"post\" action=\"adviser_print.php\" target='_blank'>\n";
-echo "                <input type=\"hidden\" name=\"day_num\" value=\"1\">\n";
-echo "                <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
-echo "                <input type=\"submit\" value=\"Print Schedule\" class='btn btn-default'>\n";
-echo "            </form>\n";
-echo "        </td>\n";
-echo "    </tr>\n";
-echo "    <tr>\n";
-echo "        <td>Tuesday</td>\n";
-echo "        <td>\n";
-echo "            <form name=\"edit_day\" method=\"post\" action=\"adviser_day.php\">\n";
-echo "                <input type=\"hidden\" name=\"day_num\" value=\"2\">\n";
-echo "                <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
-echo "                <input type=\"submit\" value=\"Edit Availability\" class='btn btn-default'>\n";
-echo "            </form>\n";
-echo "        </td>\n";
-echo "        <td>\n";
-echo "            <form name=\"print_schedule\" method=\"post\" action=\"adviser_print.php\"  target='_blank'>\n";
-echo "                <input type=\"hidden\" name=\"day_num\" value=\"2\">\n";
-echo "                <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
-echo "                <input type=\"submit\" value=\"Print Schedule\" class='btn btn-default'>\n";
-echo "            </form>\n";
-echo "        </td>\n";
-echo "    </tr>\n";
-echo "    <tr>\n";
-echo "        <td>Wednesday</td>\n";
-echo "        <td>\n";
-echo "            <form name=\"edit_day\" method=\"post\" action=\"adviser_day.php\">\n";
-echo "                <input type=\"hidden\" name=\"day_num\" value=\"3\">\n";
-echo "                <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
-echo "                <input type=\"submit\" value=\"Edit Availability\" class='btn btn-default'>\n";
-echo "            </form>\n";
-echo "        </td>\n";
-echo "        <td>\n";
-echo "            <form name=\"print_schedule\" method=\"post\" action=\"adviser_print.php\"  target='_blank'>\n";
-echo "                <input type=\"hidden\" name=\"day_num\" value=\"3\">\n";
-echo "                <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
-echo "                <input type=\"submit\" value=\"Print Schedule\" class='btn btn-default'>\n";
-echo "            </form>\n";
-echo "        </td>\n";
-echo "    </tr>\n";
-echo "    <tr>\n";
-echo "        <td>Thursday</td>\n";
-echo "        <td>\n";
-echo "            <form name=\"edit_day\" method=\"post\" action=\"adviser_day.php\">\n";
-echo "                <input type=\"hidden\" name=\"day_num\" value=\"4\">\n";
-echo "                <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
-echo "                <input type=\"submit\" value=\"Edit Availability\" class='btn btn-default'>\n";
-echo "            </form>\n";
-echo "        </td>\n";
-echo "        <td>\n";
-echo "            <form name=\"print_schedule\" method=\"post\" action=\"adviser_print.php\" target='_blank'>\n";
-echo "                <input type=\"hidden\" name=\"day_num\" value=\"4\">\n";
-echo "                <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
-echo "                <input type=\"submit\" value=\"Print Schedule\" class='btn btn-default'>\n";
-echo "            </form>\n";
-echo "        </td>\n";
-echo "    </tr>\n";
-echo "    <tr>\n";
-echo "        <td>Friday</td>\n";
-echo "        <td>\n";
-echo "            <form name=\"edit_day\" method=\"post\" action=\"adviser_day.php\">\n";
-echo "                <input type=\"hidden\" name=\"day_num\" value=\"5\">\n";
-echo "                <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
-echo "                <input type=\"submit\" value=\"Edit Availability\" class='btn btn-default'>\n";
-echo "            </form>\n";
-echo "        </td>\n";
-echo "        <td>\n";
-echo "            <form name=\"print_schedule\" method=\"post\" action=\"adviser_print.php\" target='_blank'>\n";
-echo "                <input type=\"hidden\" name=\"day_num\" value=\"5\">\n";
-echo "                <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
-echo "                <input type=\"submit\" value=\"Print Schedule\" class='btn btn-default'>\n";
-echo "            </form>\n";
-echo "        </td>\n";
-echo "    </tr>\n";*/
 
 // Logout
 echo "    <tr>\n";
