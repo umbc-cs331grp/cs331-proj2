@@ -16,8 +16,7 @@ function createTables($debug) {
     $common = new Common($debug);
 
     $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $STUDENTS_TABLE . "(
-        id VARCHAR(10) NOT NULL PRIMARY KEY,
-        student_id VARCHAR(7) NOT NULL,
+        student_id VARCHAR(7) NOT NULL PRIMARY KEY,
         student_name TEXT NOT NULL,
         student_major TEXT NOT NULL,
         appointment_id VARCHAR(10)
