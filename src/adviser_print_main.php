@@ -64,20 +64,20 @@ echo "</h4>";
 
 echo "<table class='center'>";
 
-echo "<tr><td align='center'>";
+echo "<tr><td>Full Schedule: </td><td>";
 echo "<form name='print_full' method='post' target='_blank' action='adviser_print_day.php'>";
 echo "<input type='hidden' name='day_num' value='$dayNum'>";
 echo "<input type='hidden' name='username' value='$username'>";
-echo "<input type='submit' value='Print Full Schedule' class='btn btn-default'>";
+echo "<input type='submit' value='Print' class='btn btn-default'>";
 echo "</form>";
-echo "</td></tr>";
+echo "</td></tr><tr><td></td></tr>";
 
-echo "<tr><td align='center'>";
+//echo "<tr><td colspan='2'>Detailed Schedule for:</td></tr>";
 echo "<form name='print_slot' method='post' target='_blank' action='adviser_print_slot.php'>";
 echo "<input type='hidden' name='day_num' value='$dayNum'>";
 echo "<input type='hidden' name='username' value='$username'>";
-echo "<input type='submit' value='Print Schedule for:' class='btn btn-default'>";
-echo "  <select name='slot'>";
+echo "<tr><td>Detailed Schedule for:<br>";
+echo "<select name='slot'>";
 echo "      <option value='1'>9:00 AM - 9:30 AM</option>";
 echo "      <option value='2'>9:30 AM - 10:00 AM</option>";
 echo "      <option value='3'>10:00 AM - 10:30 AM</option>";
@@ -92,9 +92,13 @@ echo "      <option value='11'>2:00 PM - 2:30 PM</option>";
 echo "      <option value='12'>2:30 PM - 3:00 PM</option>";
 echo "      <option value='13'>3:00 PM - 3:30 PM</option>";
 echo "      <option value='14'>3:30 PM - 4:00 PM</option>";
-echo "  </select>";
+echo "</select>";
+echo "</td>";
+echo "<td valign='bottom'>";
+echo "<input type='submit' value='Print' class='btn btn-default'>";
+echo "</td>";
+echo "</tr>";
 echo "</form>";
-echo "</td></tr>";
 
 echo "</table>";
 
