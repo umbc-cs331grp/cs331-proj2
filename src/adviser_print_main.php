@@ -65,7 +65,7 @@ echo "</h4>";
 echo "<table class='center'>";
 
 echo "<tr><td align='center'>";
-echo "<form name='print_full' target='_blank' action='adviser_print_day.php'>";
+echo "<form name='print_full' method='post' target='_blank' action='adviser_print_day.php'>";
 echo "<input type='hidden' name='day_num' value='$dayNum'>";
 echo "<input type='hidden' name='username' value='$username'>";
 echo "<input type='submit' value='Print Full Schedule' class='btn btn-default'>";
@@ -73,7 +73,7 @@ echo "</form>";
 echo "</td></tr>";
 
 echo "<tr><td align='center'>";
-echo "<form name='print_slot' target='_blank' action='adviser_print_slot.php'>";
+echo "<form name='print_slot' method='post' target='_blank' action='adviser_print_slot.php'>";
 echo "<input type='hidden' name='day_num' value='$dayNum'>";
 echo "<input type='hidden' name='username' value='$username'>";
 echo "<input type='submit' value='Print Schedule for:' class='btn btn-default'>";

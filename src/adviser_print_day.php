@@ -28,26 +28,34 @@ $mainTable = getMainTableName();
 $daysTable = getDaysTableName();
 $slotsTable = getSlotsTableName();
 
-print("<h4>");
-/*switch ($dayNum) {
+$date = getDateFromTable(new Common($debug));
+$date = $date->getDateOfDay($dayNum);
+
+echo "<h4>";
+switch ($dayNum) {
     case 1:
+    case 6:
         print("Monday");
         break;
     case 2:
+    case 7:
         print("Tuesday");
         break;
     case 3:
+    case 8:
         print("Wednesday");
         break;
     case 4:
+    case 9:
         print("Thursday");
         break;
     case 5:
+    case 10:
         print("Friday");
         break;
-}*/
-print("Day $dayNum");
-print("</h4>");
+}
+echo " " . $date->toString();
+echo "</h4>";
 
 // Get data for day
 $query = "SELECT * FROM " . $mainTable . " WHERE adviser_id = '$username'";
