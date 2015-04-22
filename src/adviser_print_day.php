@@ -16,22 +16,20 @@
 $debug = false;
 include_once("CommonMethods.php");
 include_once("tables.php");
-include_once("sampleData.php");
+//include_once("sampleData.php");
 
 $dayNum = (int)$_POST['day_num'];
-$username = $_POST['username']; // Not actually used
+$username = $_POST['username'];
 
 $common = new Common($debug);
-createSampleData($common);
+//createSampleData($common);
 
-// Normally, these would be different depending on login
-$mainTable = "tbl_advising_main_example";
-$slotsTable = "tbl_advising_slots_example";
-//$mainTable = getMainName($username);
-//$slotsTable = getSlotsName($username);
+$mainTable = getMainTableName();
+$daysTable = getDaysTableName();
+$slotsTable = getSlotsTableName();
 
 print("<h4>");
-switch ($dayNum) {
+/*switch ($dayNum) {
     case 1:
         print("Monday");
         break;
@@ -47,18 +45,18 @@ switch ($dayNum) {
     case 5:
         print("Friday");
         break;
-}
+}*/
+print("Day $dayNum");
 print("</h4>");
 
-// If adviser never set up that day, state that no appointments and return
-if (!rowExists($common, $mainTable, "day", $dayNum)) {
-    print("No appointments.");
-    return;
-}
-
 // Get data for day
-$query = "SELECT * FROM " . $mainTable . " WHERE day = " . $dayNum;
-$rs = $common->executeQuery($query, "get_day");
+$query = "SELECT * FROM " . $mainTable . " WHERE adviser_id = '$username'";
+$rs = $common->executeQuery($query, "get_day_id");
+$row = mysql_fetch_array($rs);
+$day_id = $row["day$dayNum"];
+
+$query = "SELECT * FROM $daysTable WHERE day_id = $day_id";
+$rs = $common->executeQuery($query, "get_day_info");
 $row = mysql_fetch_array($rs);
 
 echo "<table>\n";
@@ -112,7 +110,7 @@ for ($i = 1; $i <= 14; $i++) {
     echo "<td>\n";
 
     // Find out what type of appointment and who has signed up
-    $slotQuery = "SELECT * FROM " . $slotsTable . " WHERE slot_id = " . $row["slot" . $i];
+    $slotQuery = "SELECT * FROM $slotsTable WHERE slot_id = " . $row["slot$i"];
     $slotRS = $common->executeQuery($slotQuery, "get_slot");
     $slotRow = mysql_fetch_array($slotRS);
     $slotType = $slotRow['type'];

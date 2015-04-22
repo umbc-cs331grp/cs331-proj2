@@ -90,7 +90,7 @@ for ($i = 1; $i <= 10; $i++) {
     echo "            </form>\n";
     echo "        </td>\n";
     echo "        <td>\n";
-    echo "            <form name=\"print_schedule\" method=\"post\" action=\"adviser_print.php\" target='_blank'>\n";
+    echo "            <form name=\"print_schedule\" method=\"post\" action='adviser_print_main.php' target='_blank'>\n";
     echo "                <input type=\"hidden\" name=\"day_num\" value=\"$i\">\n";
     echo "                <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
     echo "                <input type=\"submit\" value=\"Print Schedule\" class='btn btn-default'>\n";
