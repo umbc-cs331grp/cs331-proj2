@@ -62,4 +62,14 @@ class Date {
 
         return $this->addDays($increment);
     }
+
+    function compare($date) {
+        if (($this->month == $date->month) && ($this->day == $date->day)) {
+            return 0;
+        }
+        if (($this->month < $date->month) || (($this->month == $date->month) && ($this->day < $date->day))) {
+            return -1;
+        }
+        return 1;
+    }
 }
