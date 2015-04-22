@@ -1,17 +1,21 @@
 <?php
 
 include_once("CommonMethods.php");
+include_once("Date.php");
 
 $MAIN_TABLE = "tbl_advising_main";
 $DAYS_TABLE = "tbl_advising_days";
 $SLOTS_TABLE = "tbl_advising_slots";
 $STUDENTS_TABLE = "tbl_advising_students";
+$DATE_TABLE = "tbl_advising_date";
 $APPOINTMENTS_IN_DAY = 14;
 $NUMBER_DAYS = 10;
+$START_MONTH = 3;
+$START_DAY = 21;
 
 // Creates the 3 tables
 function createTables($debug) {
-    global $MAIN_TABLE, $DAYS_TABLE, $SLOTS_TABLE, $STUDENTS_TABLE;
+    global $MAIN_TABLE, $DAYS_TABLE, $SLOTS_TABLE, $STUDENTS_TABLE, $DATE_TABLE;
 
     $common = new Common($debug);
 
@@ -63,7 +67,7 @@ function createTables($debug) {
     $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $SLOTS_TABLE . "(
         slot_id INT(8) UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
         type CHAR NOT NULL,
-        group_size INT(4) UNSIGNED NOT NULL DEFAULT 10,
+        group_size TINYINT UNSIGNED NOT NULL DEFAULT 10,
         major VARCHAR(4),
         student1 TEXT,
         student2 TEXT,
@@ -76,6 +80,13 @@ function createTables($debug) {
         student9 TEXT,
         student10 TEXT,
         appt_date DATE
+        )";
+    $common->executeQuery($createTableQuery, "slots_setup");
+
+    $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $DATE_TABLE . "(
+        dummy_id TINYINT UNSIGNED NOT NULL PRIMARY KEY,
+        month TINYINT UNSIGNED NOT NULL,
+        day TINYINT UNSIGNED NOT NULL
         )";
     $common->executeQuery($createTableQuery, "slots_setup");
 }
@@ -112,6 +123,39 @@ function getNumberOfDays()
 function getSlotsTableName() {
     global $SLOTS_TABLE;
     return $SLOTS_TABLE;
+}
+
+function resetDate($debug) {
+    global $START_MONTH, $START_DAY;
+
+    updateDateInTable(new Date($START_MONTH, $START_DAY), $debug);
+}
+
+function getDateFromTable($debug) {
+    global $DATE_TABLE;
+
+    $common = new Common($debug);
+
+    $query = "SELECT * FROM $DATE_TABLE WHERE dummy_id = 1";
+    $rs = $common->executeQuery($query, "get_date");
+    $row = mysql_fetch_array($rs);
+    $month = $row['month'];
+    $day = $row['day'];
+
+    return new Date($month, $day);
+}
+
+function updateDateInTable($date, $debug) {
+    global $DATE_TABLE;
+
+    $common = new Common($debug);
+
+    if (rowExists($common, $DATE_TABLE, "dummy_id", 1)) {
+        $query = "UPDATE $DATE_TABLE SET month = $date->month, day = $date->day WHERE dummy_id = 1";
+    } else {
+        $query = "INSERT INTO $DATE_TABLE (dummy_id, month, day) VALUES (1, $date->month, $date->day)";
+    }
+    $common->executeQuery($query, "update_date");
 }
 
 // Checks if a row exists in a given table
