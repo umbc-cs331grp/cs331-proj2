@@ -89,6 +89,7 @@ function createTables($debug) {
         day TINYINT UNSIGNED NOT NULL
         )";
     $common->executeQuery($createTableQuery, "slots_setup");
+    initializeDate($common);
 }
 
 // Gets the name of the main table
@@ -125,10 +126,11 @@ function getSlotsTableName() {
     return $SLOTS_TABLE;
 }
 
-function resetDate($common) {
-    global $START_MONTH, $START_DAY;
+function initializeDate($common) {
+    global $DATE_TABLE, $START_MONTH, $START_DAY;
 
-    updateDateInTable(new Date($START_MONTH, $START_DAY), $common);
+    $query = "INSERT INTO $DATE_TABLE (dummy_id, month, day) VALUES (1, $START_MONTH, $START_DAY)";
+    mysql_query($query, $common->conn);
 }
 
 function getDateFromTable($common) {

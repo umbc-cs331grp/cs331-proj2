@@ -37,7 +37,6 @@ $username = @($_POST['username']);
 createTables($debug);
 
 $common = new Common($debug);
-resetDate($common); // TODO remove
 
 if (!rowExists($common, getMainTableName(), "adviser_id", $username)) {
     echo "<table>";
