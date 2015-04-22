@@ -125,16 +125,14 @@ function getSlotsTableName() {
     return $SLOTS_TABLE;
 }
 
-function resetDate($debug) {
+function resetDate($common) {
     global $START_MONTH, $START_DAY;
 
-    updateDateInTable(new Date($START_MONTH, $START_DAY), $debug);
+    updateDateInTable(new Date($START_MONTH, $START_DAY), $common);
 }
 
-function getDateFromTable($debug) {
+function getDateFromTable($common) {
     global $DATE_TABLE;
-
-    $common = new Common($debug);
 
     $query = "SELECT * FROM $DATE_TABLE WHERE dummy_id = 1";
     $rs = $common->executeQuery($query, "get_date");
@@ -145,10 +143,8 @@ function getDateFromTable($debug) {
     return new Date($month, $day);
 }
 
-function updateDateInTable($date, $debug) {
+function updateDateInTable($date, $common) {
     global $DATE_TABLE;
-
-    $common = new Common($debug);
 
     if (rowExists($common, $DATE_TABLE, "dummy_id", 1)) {
         $query = "UPDATE $DATE_TABLE SET month = $date->month, day = $date->day WHERE dummy_id = 1";

@@ -46,26 +46,34 @@ $day_id = (int)$row["day$dayNum"];
 $daysTable = getDaysTableName($username);
 $slotsTable = getSlotsTableName($username);
 
+$date = getDateFromTable($common);
+$date = $date->getDateOfDay($dayNum);
+
 echo "<h4 align='center'>";
-/*switch ($dayNum) {
+switch ($dayNum) {
     case 1:
+    case 6:
         print("Monday");
         break;
     case 2:
+    case 7:
         print("Tuesday");
         break;
     case 3:
+    case 8:
         print("Wednesday");
         break;
     case 4:
+    case 9:
         print("Thursday");
         break;
     case 5:
+    case 10:
         print("Friday");
         break;
-}*/
-print("Day $dayNum");
-print("</h4>");
+}
+echo " " . $date->toString();
+echo "</h4>";
 
 /*if (!rowExists($common, $daysTable, "day", $dayNum)) {
     setupRowForDay($common, $daysTable, $slotsTable, $dayNum);

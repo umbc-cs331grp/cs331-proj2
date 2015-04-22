@@ -33,19 +33,33 @@ include_once("tables.php");
 $dayNum = (int)$_POST['day_num'];
 $username = $_POST['username'];
 
-date_default_timezone_set('EST');
-$date = new DateTime("2015-03-21");
+$date = getDateFromTable(new Common($debug));
+$date = $date->getDateOfDay($dayNum);
 
-echo $date->format('m-d');
-echo "<br>";
-
-$date->modify("+11 day");
-
-echo $date->format('Y-m-d');
-
-
-echo "<h4 align='center'>Monday ";
-echo $date->format('m-d');
+echo "<h4 align='center'>";
+switch ($dayNum) {
+    case 1:
+    case 6:
+        print("Monday");
+        break;
+    case 2:
+    case 7:
+        print("Tuesday");
+        break;
+    case 3:
+    case 8:
+        print("Wednesday");
+        break;
+    case 4:
+    case 9:
+        print("Thursday");
+        break;
+    case 5:
+    case 10:
+        print("Friday");
+        break;
+}
+echo " " . $date->toString();
 echo "</h4>";
 
 echo "<table class='center'>";

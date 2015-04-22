@@ -13,8 +13,8 @@ class Date {
         return new Date($this->month, $this->day);
     }
 
-    function __toString() {
-        return "$this->month-$this->day";
+    function toString() {
+        return $this->month . "-" .$this->day;
     }
 
     function incrementDay() {
@@ -52,5 +52,14 @@ class Date {
         }
 
         return $date;
+    }
+
+    function getDateOfDay($dayNum) {
+        $increment = $dayNum - 1;
+        if ($dayNum > 5) {
+            $increment += 2;
+        }
+
+        return $this->addDays($increment);
     }
 }
