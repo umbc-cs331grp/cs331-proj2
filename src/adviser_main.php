@@ -13,15 +13,15 @@
         <div class="col-md-3">
         </div>
         <div class="col-md-6">
-            <div class="jumbotron"><h2 class="text-center">UMBC CSEE Advising</h2></div>
+            <div class="jumbotron"><h2 class="text-center">UMBC COEIT</h2><h2 class="text-center">Engineering and Computer Science Advising</h2></div>
         </div>
         <div class="col-md-3">
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div id="box">
 
 <?php
@@ -29,14 +29,13 @@
 $debug = false;
 include_once("tables.php");
 
-
-$username = @($_POST['username']);
-
+$username = $_POST['username'];
 
 // Main part
 createTables($debug);
 
 $common = new Common($debug);
+
 if (!rowExists($common, getMainTableName(), "adviser_id", $username)) {
     echo "<table>";
     echo "<tr align='center'><td>You are not registered as an adviser.<br>If you believe this is in error, please contact the head of the department to resolve the issue.</td></tr>";
@@ -49,13 +48,14 @@ if (!rowExists($common, getMainTableName(), "adviser_id", $username)) {
 }
 
 // Buttons for each of the days for editing availability and printing a schedule
+$date = getDateFromTable($common);
 
 echo "<table class=\"center\">\n";
 
 for ($i = 1; $i <= 10; $i++) {
     echo "    <tr>\n";
     // TODO replace with some way of getting actual day name / date
-    print("<td>");
+    print("<td align='right'>");
     switch ($i) {
         case 1:
         case 6:
@@ -78,10 +78,10 @@ for ($i = 1; $i <= 10; $i++) {
             print("Friday");
             break;
     }
+    print("</td><td>");
+    print($date->toString());
     print("</td>\n");
 
-
-    //echo "        <td>Day $i</td>\n";
     echo "        <td>\n";
     echo "            <form name=\"edit_day\" method=\"post\" action=\"adviser_day.php\">\n";
     echo "                <input type=\"hidden\" name=\"day_num\" value=\"$i\">\n";
@@ -90,18 +90,24 @@ for ($i = 1; $i <= 10; $i++) {
     echo "            </form>\n";
     echo "        </td>\n";
     echo "        <td>\n";
-    echo "            <form name=\"print_schedule\" method=\"post\" action=\"adviser_print.php\" target='_blank'>\n";
+    echo "            <form name=\"print_schedule\" method=\"post\" action='adviser_print_main.php'>\n";
     echo "                <input type=\"hidden\" name=\"day_num\" value=\"$i\">\n";
     echo "                <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
     echo "                <input type=\"submit\" value=\"Print Schedule\" class='btn btn-default'>\n";
     echo "            </form>\n";
     echo "        </td>\n";
     echo "    </tr>\n";
+
+    if ($i == 5) {
+        $date = $date->addDays(3);
+    } else {
+        $date = $date->addDays(1);
+    }
 }
 
 // Logout
 echo "    <tr>\n";
-echo "        <td colspan='3' align='center'>\n";
+echo "        <td colspan='4' align='center'>\n";
 echo "    <br>\n";
 echo "<form name=\"logout\" action=\"adviser_login.html\">\n";
 echo "    <input type=\"submit\" value=\"Logout\" class='btn btn-default'>\n";
@@ -114,7 +120,7 @@ echo "</table>\n";
 
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
         </div>
     </div>
 </div>
