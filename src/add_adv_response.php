@@ -33,6 +33,12 @@ include_once("tables.php");
 $name = $_POST['name'];
 $id = $_POST['id'];
 
+// If for some reason name or id didn't post, won't create empty row
+if (empty($name) || empty($id)) {
+    print("<table class='center'><tr><td>An error has occurred. Please try again later.</td></tr></table>");
+    return;
+}
+
 createTables($debug);
 
 $common = new Common($debug);

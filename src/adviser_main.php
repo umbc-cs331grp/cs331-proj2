@@ -29,9 +29,7 @@
 $debug = false;
 include_once("tables.php");
 
-
-$username = @($_POST['username']);
-
+$username = $_POST['username'];
 
 // Main part
 createTables($debug);
