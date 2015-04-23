@@ -5,6 +5,11 @@
     <title>UMBC CSEE Advising</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="main_style.css">
+    <style>
+        select.align-right {
+            text-align: right;
+        }
+    </style>
 </head>
 <body>
 
@@ -215,7 +220,7 @@ for ($i = 1; $i <= 14; $i++) {
 
     // Group size
     $groupSize = $slotRow['group_size'];
-    echo "<select name='slot_group_size_$i'>";
+    echo "<select name='slot_group_size_$i' class='align-right'>";
     echo "    <option value='10'";
     if (($groupSize != "9") && ($groupSize != "8") && ($groupSize != "7") && ($groupSize != "6") && ($groupSize != "5")) {
         echo " selected='selected'";
