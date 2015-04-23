@@ -37,7 +37,7 @@ $common = new common($debug);
 
 if (!rowExists($common, getStudentsTableName(), "student_id", $studentID))
 {
-    $query = "INSERT INTO " . getStudentsTableName() . "(student_id, student_name, student_major, appointment_id) VALUES ('" . $studentID . "', '" . $name . " ', '" . $major . "', 'NONE')";
+    $query = "INSERT INTO " . getStudentsTableName() . "(student_id, student_name, student_major, appointment_id) VALUES ('" . $studentID . "', '" . $name . "', '" . $major . "', 'NONE')";
     $common->executeQuery($query,"student_insertion");
 }
 
