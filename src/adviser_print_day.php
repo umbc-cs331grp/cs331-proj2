@@ -23,20 +23,18 @@ function getNameFromId($common, $id, $table) {
 $debug = false;
 include_once("CommonMethods.php");
 include_once("tables.php");
-//include_once("sampleData.php");
 
 $dayNum = (int)$_POST['day_num'];
 $username = $_POST['username'];
 
 $common = new Common($debug);
-//createSampleData($common);
 
 $mainTable = getMainTableName();
 $daysTable = getDaysTableName();
 $slotsTable = getSlotsTableName();
 $studentTable = getStudentsTableName();
 
-$date = getDateFromTable(new Common($debug));
+$date = getDateFromTable($common);
 $date = $date->getDateOfDay($dayNum);
 
 echo "<h4>";
