@@ -11,7 +11,7 @@ $DATE_TABLE = "tbl_advising_date";
 $APPOINTMENTS_IN_DAY = 14;
 $NUMBER_DAYS = 10;
 $START_MONTH = 3;
-$START_DAY = 21;
+$START_DAY = 2;
 
 // Creates the 3 tables
 function createTables($debug) {
@@ -29,7 +29,7 @@ function createTables($debug) {
     $common->executeQuery($createTableQuery, "student_table");
 
     $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $MAIN_TABLE . "(
-        adviser_id VARCHAR(10) NOT NULL PRIMARY KEY,
+        adviser_id VARCHAR(20) NOT NULL PRIMARY KEY,
         adviser_name TEXT NOT NULL,
         day1 INT(8) NOT NULL,
         day2 INT(8) NOT NULL,
