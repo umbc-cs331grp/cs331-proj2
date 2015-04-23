@@ -13,6 +13,13 @@
 
 <?php
 
+function getNameFromId($common, $id, $table) {
+    $nameQuery = "SELECT * FROM $table WHERE student_id = '$id'";
+    $rs = $common->executeQuery($nameQuery, "get_name");
+    $row = mysql_fetch_array($rs);
+    return $row['student_name'];
+}
+
 $debug = false;
 include_once("CommonMethods.php");
 include_once("tables.php");
@@ -27,6 +34,7 @@ $common = new Common($debug);
 $mainTable = getMainTableName();
 $daysTable = getDaysTableName();
 $slotsTable = getSlotsTableName();
+$studentTable = getStudentsTableName();
 
 $date = getDateFromTable(new Common($debug));
 $date = $date->getDateOfDay($dayNum);
@@ -115,12 +123,23 @@ for ($i = 1; $i <= 14; $i++) {
             echo "<td>3:30 PM</td><td>-</td><td>4:00 PM</td>\n";
             break;
     }
-    echo "<td>\n";
 
-    // Find out what type of appointment and who has signed up
+    // Query database for slot info
     $slotQuery = "SELECT * FROM $slotsTable WHERE slot_id = " . $row["slot$i"];
     $slotRS = $common->executeQuery($slotQuery, "get_slot");
     $slotRow = mysql_fetch_array($slotRS);
+
+    echo "<td>Major: ";
+    $major = $slotRow['major'];
+    if ($major == null) {
+        echo "Any";
+    } else {
+        echo $major;
+    }
+    echo "</td>";
+
+    // Find out what type of appointment and who has signed up
+    echo "<td>\n";
     $slotType = $slotRow['type'];
 
     if ($slotType == "N") {
@@ -129,19 +148,19 @@ for ($i = 1; $i <= 14; $i++) {
         if (($slotRow['student1'] == null) || ($slotRow['student1'] == "")) {
             print("[No Appointment]");
         } else {
-            print("Invididual: ".$slotRow['student1']);
+            print("Invididual: ". getNameFromId($common, $slotRow['student1'], $studentTable));
         }
     } elseif ($slotType == "G") {
         if (($slotRow['student1'] == null) || ($slotRow['student1'] == "")) {
             print("[No Appointment]");
         } else {
-            print("Group: ".$slotRow['student1']);
+            print("Group: ".getNameFromId($common, $slotRow['student1'], $studentTable));
         }
         for ($j = 2; $j <=10; $j++) {
             if (($slotRow["student$j"] == null)  || ($slotRow["student$j"] == "")) {
                 break;
             }
-            print(", ".$slotRow["student$j"]);
+            print(", ".getNameFromId($common, $slotRow["student$j"], $studentTable));
         }
     }
 
