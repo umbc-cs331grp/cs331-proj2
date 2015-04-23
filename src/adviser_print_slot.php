@@ -148,7 +148,7 @@ if ($major == null) {
 echo "</h5>";
 
 echo "<table>";
-echo "<tr><th align='left'>Name</td><th align='left'>ID</th><th align='left'>Major</th></tr>";
+echo "<tr><th align='left'>Name</th><th align='left'>ID</th><th align='left'>Major</th></tr>";
 
 if ($type == "I") {
     $student_id = $row["student1"];
@@ -163,18 +163,19 @@ if ($type == "I") {
     echo "</tr>";
 } elseif ($type == "G") {
     for ($i = 1; $i <=10; $i++) {
-        if (($type["student$i"] == null)  || ($row["student$i"] == "")) {
+        if (($row["student$i"] == null)  || ($row["student$i"] == "")) {
             break;
         }
+
         $student_id = $row["student$i"];
         $query = "SELECT * FROM $studentTable WHERE student_id = '$student_id'";
         $rs = $common->executeQuery($query, "get_student");
-        $row = mysql_fetch_array($rs);
+        $slotRow = mysql_fetch_array($rs);
 
         echo "<tr>";
-        echo "<td>".$row['student_name']."</td>";
+        echo "<td>".$slotRow['student_name']."</td>";
         echo "<td>$student_id</td>";
-        echo "<td>".$row['student_major']."</td>";
+        echo "<td>".$slotRow['student_major']."</td>";
         echo "</tr>";
     }
 }
