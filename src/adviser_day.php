@@ -49,6 +49,14 @@ $slotsTable = getSlotsTableName($username);
 $date = getDateFromTable($common);
 $date = $date->getDateOfDay($dayNum);
 
+// Check if individual appointments should be available yet
+$individual = true;
+$columns = 8;
+if ($date->compare(new Date(3, 23)) == -1) {
+    $individual = false;
+    $columns = 7;
+}
+
 echo "<h4 align='center'>";
 switch ($dayNum) {
     case 1:
@@ -189,13 +197,15 @@ for ($i = 1; $i <= 14; $i++) {
         echo " checked=\"checked\"";
     }
     echo "> Not Available\n";
-    echo "</td><td>\n";
-    echo "<input type=\"radio\" name=\"slot" . $i . "\" value=\"I\"";
-    if ($slotType == "I") {
-        echo " checked=\"checked\"";
+    echo "</td>\n";
+    if ($individual) {
+        echo "<td><input type=\"radio\" name=\"slot" . $i . "\" value=\"I\"";
+        if ($slotType == "I") {
+            echo " checked=\"checked\"";
+        }
+        echo "> Individual</td>";
     }
-    echo "> Individual\n";
-    echo "</td><td>\n";
+    echo "<td>\n";
     echo "<input type=\"radio\" name=\"slot" . $i . "\" value=\"G\"";
     if ($slotType == "G") {
         echo " checked=\"checked\"";
@@ -249,7 +259,7 @@ if ($dayNum > 5) {
     $row = mysql_fetch_array($rs);
     $weekly = $row['weekly'];
 
-    echo "<tr><td colspan='8' align='center'>";
+    echo "<tr><td colspan='$columns' align='center'>";
     echo "<input type='checkbox' name='weekly' value='T'";
     if ($weekly == "1") {
         echo " checked";
@@ -259,7 +269,7 @@ if ($dayNum > 5) {
 }
 
 // Button to update schedule
-echo "<tr><td colspan='8' align='center'>";
+echo "<tr><td colspan='$columns' align='center'>";
 echo "<input type=\"submit\" value=\"Update\" class='btn btn-default'>";
 echo "</td>";
 
