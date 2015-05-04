@@ -3,14 +3,16 @@
 class Date {
     var $month;
     var $day;
+    var $dayOfWeek;
 
-    function Date($month, $day) {
+    function Date($month, $day, $dayOfWeek) {
         $this->month = $month;
         $this->day = $day;
+        $this->dayOfWeek = $dayOfWeek;
     }
 
     function getCopy() {
-        return new Date($this->month, $this->day);
+        return new Date($this->month, $this->day, $this->dayOfWeek);
     }
 
     function toString() {
@@ -41,7 +43,39 @@ class Date {
                 $date->day++;
         }
 
+        switch ($date->dayOfWeek) {
+            case "Sunday":
+                $date->dayOfWeek = "Monday";
+                break;
+            case "Monday":
+                $date->dayOfWeek = "Tuesday";
+                break;
+            case "Tuesday":
+                $date->dayOfWeek = "Wednesday";
+                break;
+            case "Wednesday":
+                $date->dayOfWeek = "Thursday";
+                break;
+            case "Thursday":
+                $date->dayOfWeek = "Friday";
+                break;
+            case "Friday":
+                $date->dayOfWeek = "Saturday";
+                break;
+            case "Saturday":
+                $date->dayOfWeek = "Sunday";
+                break;
+        }
+
         return $date;
+    }
+
+    function incrementToNextWeekday() {
+        $date = $this->getCopy();
+
+        do {
+            $date = $date->incrementDay();
+        } while (($date->dayOfWeek == "Saturday") || ($date->dayOfWeek == "Sunday"));
     }
 
     function addDays($days) {

@@ -12,6 +12,7 @@ $APPOINTMENTS_IN_DAY = 14;
 $NUMBER_DAYS = 10;
 $START_MONTH = 3;
 $START_DAY = 2;
+$START_DAY_OF_WEEK = "Monday";
 
 // Creates the 3 tables
 function createTables($debug) {
@@ -90,7 +91,8 @@ function createTables($debug) {
     $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $DATE_TABLE . "(
         dummy_id TINYINT UNSIGNED NOT NULL PRIMARY KEY,
         month TINYINT UNSIGNED NOT NULL,
-        day TINYINT UNSIGNED NOT NULL
+        day TINYINT UNSIGNED NOT NULL,
+        day_of_week VARCHAR(10) NOT NULL
         )";
     $common->executeQuery($createTableQuery, "slots_setup");
     initializeDate($common);
@@ -131,9 +133,9 @@ function getSlotsTableName() {
 }
 
 function initializeDate($common) {
-    global $DATE_TABLE, $START_MONTH, $START_DAY;
+    global $DATE_TABLE, $START_MONTH, $START_DAY, $START_DAY_OF_WEEK;
 
-    $query = "INSERT INTO $DATE_TABLE (dummy_id, month, day) VALUES (1, $START_MONTH, $START_DAY)";
+    $query = "INSERT INTO $DATE_TABLE (dummy_id, month, day) VALUES (1, $START_MONTH, $START_DAY, '$START_DAY_OF_WEEK')";
     mysql_query($query, $common->conn);
 }
 
@@ -145,17 +147,18 @@ function getDateFromTable($common) {
     $row = mysql_fetch_array($rs);
     $month = $row['month'];
     $day = $row['day'];
+    $dayOfWeek = $row['day_of_week'];
 
-    return new Date($month, $day);
+    return new Date($month, $day, $dayOfWeek);
 }
 
 function updateDateInTable($date, $common) {
     global $DATE_TABLE;
 
     if (rowExists($common, $DATE_TABLE, "dummy_id", 1)) {
-        $query = "UPDATE $DATE_TABLE SET month = $date->month, day = $date->day WHERE dummy_id = 1";
+        $query = "UPDATE $DATE_TABLE SET month = $date->month, day = $date->day, day_of_week = '$date->dayOfWeek' WHERE dummy_id = 1";
     } else {
-        $query = "INSERT INTO $DATE_TABLE (dummy_id, month, day) VALUES (1, $date->month, $date->day)";
+        $query = "INSERT INTO $DATE_TABLE (dummy_id, month, day, day_of_week) VALUES (1, $date->month, $date->day, '$date->dayOfWeek')";
     }
     $common->executeQuery($query, "update_date");
 }
