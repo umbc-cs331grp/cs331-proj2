@@ -13,52 +13,43 @@
 
 <?php
 
+function getNameFromId($common, $id, $table) {
+    $nameQuery = "SELECT * FROM $table WHERE student_id = '$id'";
+    $rs = $common->executeQuery($nameQuery, "get_name");
+    $row = mysql_fetch_array($rs);
+    return $row['student_name'];
+}
+
 $debug = false;
 include_once("CommonMethods.php");
 include_once("tables.php");
-include_once("sampleData.php");
 
 $dayNum = (int)$_POST['day_num'];
-$username = $_POST['username']; // Not actually used
+$username = $_POST['username'];
 
 $common = new Common($debug);
-createSampleData($common);
 
-// Normally, these would be different depending on login
-$mainTable = "tbl_advising_main_example";
-$slotsTable = "tbl_advising_slots_example";
-//$mainTable = getMainName($username);
-//$slotsTable = getSlotsName($username);
+$mainTable = getMainTableName();
+$daysTable = getDaysTableName();
+$slotsTable = getSlotsTableName();
+$studentTable = getStudentsTableName();
 
-print("<h4>");
-switch ($dayNum) {
-    case 1:
-        print("Monday");
-        break;
-    case 2:
-        print("Tuesday");
-        break;
-    case 3:
-        print("Wednesday");
-        break;
-    case 4:
-        print("Thursday");
-        break;
-    case 5:
-        print("Friday");
-        break;
-}
-print("</h4>");
+$date = getDateFromTable($common);
+$date = $date->getDateOfDay($dayNum);
 
-// If adviser never set up that day, state that no appointments and return
-if (!rowExists($common, $mainTable, "day", $dayNum)) {
-    print("No appointments.");
-    return;
-}
+echo "<h4>";
+echo $date->dayOfWeek;
+echo " " . $date->toString();
+echo "</h4>";
 
 // Get data for day
-$query = "SELECT * FROM " . $mainTable . " WHERE day = " . $dayNum;
-$rs = $common->executeQuery($query, "get_day");
+$query = "SELECT * FROM " . $mainTable . " WHERE adviser_id = '$username'";
+$rs = $common->executeQuery($query, "get_day_id");
+$row = mysql_fetch_array($rs);
+$day_id = $row["day$dayNum"];
+
+$query = "SELECT * FROM $daysTable WHERE day_id = $day_id";
+$rs = $common->executeQuery($query, "get_day_info");
 $row = mysql_fetch_array($rs);
 
 echo "<table>\n";
@@ -109,12 +100,23 @@ for ($i = 1; $i <= 14; $i++) {
             echo "<td>3:30 PM</td><td>-</td><td>4:00 PM</td>\n";
             break;
     }
-    echo "<td>\n";
 
-    // Find out what type of appointment and who has signed up
-    $slotQuery = "SELECT * FROM " . $slotsTable . " WHERE slot_id = " . $row["slot" . $i];
+    // Query database for slot info
+    $slotQuery = "SELECT * FROM $slotsTable WHERE slot_id = " . $row["slot$i"];
     $slotRS = $common->executeQuery($slotQuery, "get_slot");
     $slotRow = mysql_fetch_array($slotRS);
+
+    echo "<td>Major: ";
+    $major = $slotRow['major'];
+    if ($major == null) {
+        echo "Any";
+    } else {
+        echo $major;
+    }
+    echo "</td>";
+
+    // Find out what type of appointment and who has signed up
+    echo "<td>\n";
     $slotType = $slotRow['type'];
 
     if ($slotType == "N") {
@@ -123,19 +125,19 @@ for ($i = 1; $i <= 14; $i++) {
         if (($slotRow['student1'] == null) || ($slotRow['student1'] == "")) {
             print("[No Appointment]");
         } else {
-            print("Invididual: ".$slotRow['student1']);
+            print("Invididual: ". getNameFromId($common, $slotRow['student1'], $studentTable));
         }
     } elseif ($slotType == "G") {
         if (($slotRow['student1'] == null) || ($slotRow['student1'] == "")) {
             print("[No Appointment]");
         } else {
-            print("Group: ".$slotRow['student1']);
+            print("Group: ".getNameFromId($common, $slotRow['student1'], $studentTable));
         }
         for ($j = 2; $j <=10; $j++) {
             if (($slotRow["student$j"] == null)  || ($slotRow["student$j"] == "")) {
                 break;
             }
-            print(", ".$slotRow["student$j"]);
+            print(", ".getNameFromId($common, $slotRow["student$j"], $studentTable));
         }
     }
 

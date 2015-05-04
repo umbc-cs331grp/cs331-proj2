@@ -5,6 +5,11 @@
     <title>UMBC CSEE Advising</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="main_style.css">
+    <style>
+        select.align-right {
+            text-align: right;
+        }
+    </style>
 </head>
 <body>
 
@@ -13,7 +18,7 @@
         <div class="col-md-3">
         </div>
         <div class="col-md-6">
-            <div class="jumbotron"><h2 class="text-center">UMBC CSEE Advising</h2></div>
+            <div class="jumbotron"><h2 class="text-center">UMBC COEIT</h2><h2 class="text-center">Engineering and Computer Science Advising</h2></div>
         </div>
         <div class="col-md-3">
         </div>
@@ -46,26 +51,21 @@ $day_id = (int)$row["day$dayNum"];
 $daysTable = getDaysTableName($username);
 $slotsTable = getSlotsTableName($username);
 
+$date = getDateFromTable($common);
+$date = $date->getDateOfDay($dayNum);
+
+// Check if individual appointments should be available yet
+$individual = true;
+$columns = 8;
+if ($date->compare(new Date(3, 23)) == -1) {
+    $individual = false;
+    $columns = 7;
+}
+
 echo "<h4 align='center'>";
-/*switch ($dayNum) {
-    case 1:
-        print("Monday");
-        break;
-    case 2:
-        print("Tuesday");
-        break;
-    case 3:
-        print("Wednesday");
-        break;
-    case 4:
-        print("Thursday");
-        break;
-    case 5:
-        print("Friday");
-        break;
-}*/
-print("Day $dayNum");
-print("</h4>");
+echo $date->dayOfWeek;
+echo " " . $date->toString();
+echo "</h4>";
 
 /*if (!rowExists($common, $daysTable, "day", $dayNum)) {
     setupRowForDay($common, $daysTable, $slotsTable, $dayNum);
@@ -181,13 +181,15 @@ for ($i = 1; $i <= 14; $i++) {
         echo " checked=\"checked\"";
     }
     echo "> Not Available\n";
-    echo "</td><td>\n";
-    echo "<input type=\"radio\" name=\"slot" . $i . "\" value=\"I\"";
-    if ($slotType == "I") {
-        echo " checked=\"checked\"";
+    echo "</td>\n";
+    if ($individual) {
+        echo "<td><input type=\"radio\" name=\"slot" . $i . "\" value=\"I\"";
+        if ($slotType == "I") {
+            echo " checked=\"checked\"";
+        }
+        echo "> Individual</td>";
     }
-    echo "> Individual\n";
-    echo "</td><td>\n";
+    echo "<td>\n";
     echo "<input type=\"radio\" name=\"slot" . $i . "\" value=\"G\"";
     if ($slotType == "G") {
         echo " checked=\"checked\"";
@@ -197,7 +199,7 @@ for ($i = 1; $i <= 14; $i++) {
 
     // Group size
     $groupSize = $slotRow['group_size'];
-    echo "<select name='slot_group_size_$i'>";
+    echo "<select name='slot_group_size_$i' class='align-right'>";
     echo "    <option value='10'";
     if (($groupSize != "9") && ($groupSize != "8") && ($groupSize != "7") && ($groupSize != "6") && ($groupSize != "5")) {
         echo " selected='selected'";
@@ -241,7 +243,7 @@ if ($dayNum > 5) {
     $row = mysql_fetch_array($rs);
     $weekly = $row['weekly'];
 
-    echo "<tr><td colspan='8' align='center'>";
+    echo "<tr><td colspan='$columns' align='center'>";
     echo "<input type='checkbox' name='weekly' value='T'";
     if ($weekly == "1") {
         echo " checked";
@@ -251,7 +253,7 @@ if ($dayNum > 5) {
 }
 
 // Button to update schedule
-echo "<tr><td colspan='8' align='center'>";
+echo "<tr><td colspan='$columns' align='center'>";
 echo "<input type=\"submit\" value=\"Update\" class='btn btn-default'>";
 echo "</td>";
 

@@ -13,7 +13,7 @@
         <div class="col-md-3">
         </div>
         <div class="col-md-6">
-            <div class="jumbotron"><h2 class="text-center">UMBC CSEE Advising</h2></div>
+            <div class="jumbotron"><h2 class="text-center">UMBC COEIT</h2><h2 class="text-center">Engineering and Computer Science Advising</h2></div>
         </div>
         <div class="col-md-3">
         </div>
@@ -77,24 +77,10 @@ echo "<form name=\"back_to_day\" method=\"post\" action=\"adviser_day.php\">\n";
 echo "    <input type=\"hidden\" name=\"username\" value=\"$username\">\n";
 echo "    <input type=\"hidden\" name=\"day_num\" value=\"$dayNum\">\n";
 echo "    <input type=\"submit\" value=\"Return to Editing\n";
-/*switch ($dayNum) {
-    case 1:
-        print("Monday");
-        break;
-    case 2:
-        print("Tuesday");
-        break;
-    case 3:
-        print("Wednesday");
-        break;
-    case 4:
-        print("Thursday");
-        break;
-    case 5:
-        print("Friday");
-        break;
-}*/
-print("Day $dayNum");
+$date = getDateFromTable($common);
+$date = $date->getDateOfDay($dayNum);
+print($date->dayOfWeek);
+echo " " . $date->toString();
 echo "'s Schedule\"  class='btn btn-default'>\n";
 echo "</form>\n";
 
