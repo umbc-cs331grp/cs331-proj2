@@ -79,28 +79,7 @@ echo "    <input type=\"hidden\" name=\"day_num\" value=\"$dayNum\">\n";
 echo "    <input type=\"submit\" value=\"Return to Editing\n";
 $date = getDateFromTable($common);
 $date = $date->getDateOfDay($dayNum);
-switch ($dayNum) {
-    case 1:
-    case 6:
-        print("Monday");
-        break;
-    case 2:
-    case 7:
-        print("Tuesday");
-        break;
-    case 3:
-    case 8:
-        print("Wednesday");
-        break;
-    case 4:
-    case 9:
-        print("Thursday");
-        break;
-    case 5:
-    case 10:
-        print("Friday");
-        break;
-}
+print($date->dayOfWeek);
 echo " " . $date->toString();
 echo "'s Schedule\"  class='btn btn-default'>\n";
 echo "</form>\n";

@@ -54,30 +54,8 @@ echo "<table class=\"center\">\n";
 
 for ($i = 1; $i <= 10; $i++) {
     echo "    <tr>\n";
-    // TODO replace with some way of getting actual day name / date
     print("<td align='right'>");
-    switch ($i) {
-        case 1:
-        case 6:
-            print("Monday");
-            break;
-        case 2:
-        case 7:
-            print("Tuesday");
-            break;
-        case 3:
-        case 8:
-            print("Wednesday");
-            break;
-        case 4:
-        case 9:
-            print("Thursday");
-            break;
-        case 5:
-        case 10:
-            print("Friday");
-            break;
-    }
+    print($date->dayOfWeek);
     print("</td><td>");
     print($date->toString());
     print("</td>\n");
@@ -98,11 +76,7 @@ for ($i = 1; $i <= 10; $i++) {
     echo "        </td>\n";
     echo "    </tr>\n";
 
-    if ($i == 5) {
-        $date = $date->addDays(3);
-    } else {
-        $date = $date->addDays(1);
-    }
+    $date = $date->incrementToNextWeekday();
 }
 
 // Logout

@@ -80,23 +80,15 @@ class Date {
         return $date;
     }
 
-    function addDays($days) {
+    function getDateOfDay($dayNum) {
+        $increment = $dayNum - 1;
         $date = $this->getCopy();
 
-        for ($i = 0; $i < $days; $i++) {
-            $date = $date->incrementDay();
+        for ($i = 0; $i < $increment; $i++) {
+            $date = $date->incrementToNextWeekday();
         }
 
         return $date;
-    }
-
-    function getDateOfDay($dayNum) {
-        $increment = $dayNum - 1;
-        if ($dayNum > 5) {
-            $increment += 2;
-        }
-
-        return $this->addDays($increment);
     }
 
     function compare($date) {
