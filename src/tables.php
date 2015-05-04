@@ -23,13 +23,17 @@ function createTables($debug) {
         student_id VARCHAR(7) NOT NULL PRIMARY KEY,
         student_name TEXT NOT NULL,
         student_major TEXT NOT NULL,
-        appointment_id VARCHAR(10)
+        appointment_id VARCHAR(10),
+        appointment_date VARCHAR(4),
+        appointment_time VARCHAR(20),
+        appointment_adviser VARCHAR(20)
         )";
 
     $common->executeQuery($createTableQuery, "student_table");
 
     $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $MAIN_TABLE . "(
-        adviser_id VARCHAR(20) NOT NULL PRIMARY KEY,
+        adviser_num INT(4) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+        adviser_id VARCHAR(20) NOT NULL,
         adviser_name TEXT NOT NULL,
         day1 INT(8) NOT NULL,
         day2 INT(8) NOT NULL,
@@ -41,8 +45,9 @@ function createTables($debug) {
         day8 INT(8) NOT NULL,
         day9 INT(8) NOT NULL,
         day10 INT(8) NOT NULL
-        )";
+        ) ";
     $common->executeQuery($createTableQuery, "main_setup");
+
 
     $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $DAYS_TABLE . "(
         day_id INT(4) UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -78,8 +83,7 @@ function createTables($debug) {
         student7 TEXT,
         student8 TEXT,
         student9 TEXT,
-        student10 TEXT,
-        appt_date DATE
+        student10 TEXT
         )";
     $common->executeQuery($createTableQuery, "slots_setup");
 
