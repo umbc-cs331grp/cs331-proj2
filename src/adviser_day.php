@@ -63,28 +63,7 @@ if ($date->compare(new Date(3, 23)) == -1) {
 }
 
 echo "<h4 align='center'>";
-switch ($dayNum) {
-    case 1:
-    case 6:
-        print("Monday");
-        break;
-    case 2:
-    case 7:
-        print("Tuesday");
-        break;
-    case 3:
-    case 8:
-        print("Wednesday");
-        break;
-    case 4:
-    case 9:
-        print("Thursday");
-        break;
-    case 5:
-    case 10:
-        print("Friday");
-        break;
-}
+echo $date->dayOfWeek;
 echo " " . $date->toString();
 echo "</h4>";
 

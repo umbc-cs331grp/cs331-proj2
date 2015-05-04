@@ -92,11 +92,13 @@ class Date {
 
     function getDateOfDay($dayNum) {
         $increment = $dayNum - 1;
-        if ($dayNum > 5) {
-            $increment += 2;
+        $date = $this->getCopy();
+
+        for ($i = 0; $i < $increment; $i++) {
+            $date = $date->incrementToNextWeekday();
         }
 
-        return $this->addDays($increment);
+        return $date;
     }
 
     function compare($date) {

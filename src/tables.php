@@ -135,7 +135,7 @@ function getSlotsTableName() {
 function initializeDate($common) {
     global $DATE_TABLE, $START_MONTH, $START_DAY, $START_DAY_OF_WEEK;
 
-    $query = "INSERT INTO $DATE_TABLE (dummy_id, month, day) VALUES (1, $START_MONTH, $START_DAY, '$START_DAY_OF_WEEK')";
+    $query = "INSERT INTO $DATE_TABLE (dummy_id, month, day, day_of_week) VALUES (1, $START_MONTH, $START_DAY, '$START_DAY_OF_WEEK')";
     mysql_query($query, $common->conn);
 }
 
