@@ -80,16 +80,6 @@ class Date {
         return $date;
     }
 
-    function addDays($days) {
-        $date = $this->getCopy();
-
-        for ($i = 0; $i < $days; $i++) {
-            $date = $date->incrementDay();
-        }
-
-        return $date;
-    }
-
     function getDateOfDay($dayNum) {
         $increment = $dayNum - 1;
         $date = $this->getCopy();
