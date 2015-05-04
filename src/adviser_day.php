@@ -39,6 +39,7 @@ $dayNum = (int)$_POST['day_num'];
 $username = $_POST['username'];
 
 $common = new Common($debug);
+$individualStartDate = new Date(3, 23, "Monday");
 
 // Get day id
 $mainTable = getMainTableName();
@@ -57,7 +58,7 @@ $date = $date->getDateOfDay($dayNum);
 // Check if individual appointments should be available yet
 $individual = true;
 $columns = 8;
-if ($date->compare(new Date(3, 23)) == -1) {
+if ($date->compare($individualStartDate) == -1) {
     $individual = false;
     $columns = 7;
 }
