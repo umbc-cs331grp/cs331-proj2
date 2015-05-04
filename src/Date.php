@@ -76,6 +76,8 @@ class Date {
         do {
             $date = $date->incrementDay();
         } while (($date->dayOfWeek == "Saturday") || ($date->dayOfWeek == "Sunday"));
+
+        return $date;
     }
 
     function addDays($days) {
