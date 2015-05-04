@@ -41,20 +41,21 @@
 
                 if (!rowExists($common, getStudentsTableName(), "student_id", $studentID))
                 {
-                    $query = "INSERT INTO " . getStudentsTableName() . "(student_id, student_name, student_major, appointment_id) VALUES ('" . $studentID . "', '" . $name . "', '" . $major . "', 'NONE')";
+                    $query = "INSERT INTO " . getStudentsTableName() . "(student_id, student_name, student_major) VALUES ('" . $studentID . "', '" . $name . "', '" . $major . "')";
                     $common->executeQuery($query,"student_insertion");
                 }
 
                 //See Whether the Student has an appointment
                 $query = "SELECT appointment_id FROM " . getStudentsTableName() . " WHERE student_id = '$studentID'";
                 $rs = $common->executeQuery($query,"Get_Appointment_Status");
-                $data = mysql_fetch_row($rs);
-                $apptID = $data[0];
+                $data = mysql_fetch_array($rs,MYSQL_ASSOC);
+                $apptID = $data['appointment_id'];
 
 
 
 
-                if($apptID == "NONE") //If no appointment, display various filters to find open appointments.
+
+                if(empty($apptID)) //If no appointment, display various filters to find open appointments.
                 {
 
                     $query = "SELECT adviser_id, adviser_name FROM " . getMainTableName();
@@ -94,10 +95,18 @@
                     $today = getDateFromTable($common);
                     for($i = 1; $i <= getNumberOfDays(); $i++ )
                     {
-                        $todayS = $today->toString();
+                        $todayS = $today->toStringWithWeekday();
                         echo($todayS);
                         echo("<option value=$i>$todayS</option>");
-                        $today = $today->IncrementDay();
+                        if ($today->dayOfWeek == "Friday")
+                        {
+                            $today = $today->incrementToNextWeekday();
+                        }
+                        else
+                        {
+                            $today = $today->IncrementDay();
+                        }
+
                     }
                     echo("<input type = 'hidden' name='name' value='$name'</input>");
                     echo("<input type = 'hidden' name='major' value='$major'</input>");
@@ -112,11 +121,22 @@
                 }
                 else //if they already have an appointment, display options to cancel appointment.
                 {
-                    /*
+
                     $query = "SELECT * FROM " . getStudentsTableName() . " WHERE student_id ='" . $studentID . "'" ;
                     $rs = $common -> executeQuery($query, "Get_Student_Info");
-                    */
-                    echo("Delete Functionality in Progress");
+                    $studentRow = mysql_Fetch_array($rs, MYSQL_ASSOC);
+                    $date =  $studentRow['appointment_date'];
+                    $time =  $studentRow['appointment_time'];
+                    $adviser =  $studentRow['appointment_adviser'];
+                    $slotID =  $studentRow['appointment_id'];
+                    echo("You are Currently Registered for the following appointment: <br> ");
+                    echo("<br> Date: " .  $date . "<br> At: "  . $time .  "<br> Adviser: " . $adviser);
+                    echo("<br> Would you like to cancel your Appointment?: ");
+                    echo("<form action='cancel_appointment.php' method='post'>");
+                    echo("<input type = 'hidden' name='studentID' value='$studentID'</input>");
+                    echo("<input type = 'hidden' name='slotID' value='$slotID'</input>");
+                    echo("<br><input type='submit' value='Cancel Appointment' name='submit' class='btn btn-default'>");
+
 
                 }
 
@@ -199,8 +219,8 @@
                             for ($i = 1; $i < $appointmentDay; $i++) {
                                 $today = $today->IncrementDay();
                             }
-                            $appointmentDayS = $today->toString();
-
+                            $appointmentDayS = $today->toStringWithWeekday();
+                            $appointmentDayP = $today->toString();
                             //Make an Array of all the slot IDs for that day
                             $slotIDs = array();
                             for ($j = $minSlot + ($dayColumn * getAppointMentsInDay()); $j <= $maxSlot + ($dayColumn * getAppointmentsInDay()); $j++) {
@@ -220,7 +240,7 @@
                                     $insertSlot = "student";
                                     for ($k = 1; $k <= $appointmentRow['group_size']; $k++)
                                     {
-                                        if ($appointmentRow[$insertSlot . $k] != 'NULL')
+                                        if (empty($appointmentRow[$insertSlot . $k]))
                                         {
                                             $insertSlot = $insertSlot . $k;
                                             break;
@@ -233,7 +253,7 @@
                                     //see if the first slot isn't filled
                                     $studentSlot = "student";
                                     if($appointmentRow['student1'] != 'NULL')
-                                        $studentSlot = "Okay";
+                                        $studentSlot = "student1";
                                 }
 
                                 //Display a radio button allowing the student to select that appointment
@@ -241,7 +261,7 @@
                                     $slotID = $appointmentRow['slot_id'];
                                     $timeS = printDate($slotID, $dayColumn);
                                     echo("<tr>");
-                                    echo("<td align = 'center' td width='50%'><input type='radio' name='apptSelect' value='$slotID,$appointmentDayS,$timeS,$adviserName,$insertSlot'>");
+                                    echo("<td align = 'center' td width='50%'><input type='radio' name='apptSelect' value='$slotID,$appointmentDayP,$timeS,$adviserName,$insertSlot'>");
                                     echo("<input type='hidden' name='name' class='form-control' value='$name'>");
                                     echo("<td>$appointmentDayS</td>");
                                     echo("<td>$timeS</td>");
