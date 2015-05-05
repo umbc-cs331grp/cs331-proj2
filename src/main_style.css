@@ -1,6 +1,7 @@
 #box {
     background-color: #eee;
     padding: 8px;
+    border-radius: 5px;
 }
 table.center {
     margin-left: auto;

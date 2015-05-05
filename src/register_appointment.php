@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>UMBC CSEE Advising</title>
+    <title>UMBC COEIT Advising</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="main_style.css">
 </head>
@@ -26,7 +26,8 @@
 
             <?php
             include_once("tables.php");
-            $name = @($_POST['name']);
+            $firstName = @($_POST['first-name']);
+            $lastName = @($_POST['last-name']);
             $studentID = @($_POST['studentID']);
             $appointmentData = @($_POST['apptSelect']);
             $data = explode(',', $appointmentData);
