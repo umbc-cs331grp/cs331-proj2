@@ -97,14 +97,8 @@
                         $todayS = $today->toStringWithWeekday();
                         echo($todayS);
                         echo("<option value=$i>$todayS</option>");
-                        if ($today->dayOfWeek == "Friday")
-                        {
-                            $today = $today->incrementToNextWeekday();
-                        }
-                        else
-                        {
-                            $today = $today->IncrementDay();
-                        }
+                        $today = $today->incrementToNextWeekday();
+
                     }
                     echo("</select>");
 
@@ -236,16 +230,10 @@
 
                             //get formatted Date
                             $today = getDateFromTable($common);
-                            for ($i = 1; $i < $appointmentDay; $i++) {
-                                if ($today->dayOfWeek == "Friday")
-                                {
-                                    $today = $today->incrementToNextWeekday();
-                                }
-                                else
-                                {
-                                    $today = $today->IncrementDay();
-                                }
-                            }
+                            for ($i = 1; $i < $appointmentDay; $i++)
+                                $today = $today->incrementToNextWeekday();
+
+
                             $appointmentDayS = $today->toStringWithWeekday();
                             $appointmentDayP = $today->toString();
                             //Make an Array of all the slot IDs for that day
