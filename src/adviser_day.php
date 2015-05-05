@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>UMBC CSEE Advising</title>
+    <title>UMBC COEIT Advising</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="main_style.css">
     <style>
