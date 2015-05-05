@@ -19,6 +19,10 @@ class Date {
         return $this->month . "-" .$this->day;
     }
 
+    function toStringWithWeekday() {
+        return $this->dayOfWeek . ": " . $this->month . "-" .$this->day;
+    }
+
     function incrementDay() {
         $date = $this->getCopy();
 
