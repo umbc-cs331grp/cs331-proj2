@@ -83,7 +83,7 @@ echo "<input type=\"hidden\" name=\"day_id\" value=\"$day_id\">";
 echo "<input type=\"hidden\" name=\"username\" value=\"$username\">";
 echo "<table class='center'>\n";
 // Loop over time slots
-for ($i = 1; $i <= 14; $i++) {
+for ($i = 1; $i <= getAppointmentsInDay(); $i++) {
     echo "<tr>\n";
     // Print time slots
     switch ($i) {
@@ -238,7 +238,7 @@ for ($i = 1; $i <= 14; $i++) {
 }
 
 // Day can be repeated
-if ($dayNum > 5) {
+if ($dayNum > (getNumberOfDays() - 5)) {
     $query = "SELECT weekly FROM $daysTable WHERE day_id = $day_id";
     $rs = $common->executeQuery($query, "get_weekly");
     $row = mysql_fetch_array($rs);

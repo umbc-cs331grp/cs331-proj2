@@ -109,12 +109,8 @@ if (($type == "N") || ($row['student1'] == null)) {
 // Print info about appointment otherwise
 if ($type == "I") {
     print("<h5>Invididual</h5>");
-    //getNameFromId($common, $row['student1'], $studentTable);
 } elseif ($type == "G") {
     print("<h5>Group</h5>");
-
-    //getNameFromId($common, $row['student1'], $studentTable);
-
 }
 
 $major = $row['major'];
@@ -136,14 +132,14 @@ if ($type == "I") {
     $row = mysql_fetch_array($rs);
 
     echo "<tr>";
-    echo "<td>".$row['student_name']."</td>";
+    echo "<td>".$row['student_first_name']." ".$slotRow['student_last_name']."</td>";
     echo "<td>$student_id</td>";
     echo "<td>".$row['student_major']."</td>";
     echo "</tr>";
 } elseif ($type == "G") {
-    for ($i = 1; $i <=10; $i++) {
+    for ($i = 1; $i <= getNumberOfDays(); $i++) {
         if (($row["student$i"] == null)  || ($row["student$i"] == "")) {
-            break;
+            continue;
         }
 
         $student_id = $row["student$i"];
@@ -152,7 +148,7 @@ if ($type == "I") {
         $slotRow = mysql_fetch_array($rs);
 
         echo "<tr>";
-        echo "<td>".$slotRow['student_name']."</td>";
+        echo "<td>".$slotRow['student_first_name']." ".$slotRow['student_last_name']."</td>";
         echo "<td>$student_id</td>";
         echo "<td>".$slotRow['student_major']."</td>";
         echo "</tr>";
