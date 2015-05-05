@@ -35,7 +35,6 @@
                 $studentID = @($_POST['studentID']);
                 $major = @($_POST['major']);
                 $apptType = @($_POST['apptType']);
-
                 $common = new common($debug);
 
 
@@ -64,7 +63,7 @@
 
                     echo("<form action = '' method='post' id = 'getAppts'>");
                     echo("Advisor Selection <br>");
-                    echo("<select name = 'adviserList' form='getAppts'>");
+                    echo("<select name = 'adviserList' form='getAppts' class='form-control'>");
                     echo("<option value='Any'>Any</option>");
                     while($row = mysql_fetch_array($rs, MYSQL_NUM))
                     {
@@ -72,7 +71,7 @@
                     }
                     echo("</select>");
 
-                    echo(" <br> Time Selection </br> <select name = 'timeList' form='getAppts'>");
+                    echo(" <br> Time Selection </br> <select name = 'timeList' form='getAppts' class='form-control'>");
                     echo("<option value='Any'>Any</option>");
                     echo("<option value='1'>9:00 AM   - 9:30 AM</option>");
                     echo("<option value='2'>9:30 AM - 10:00 AM</option>");
@@ -90,7 +89,7 @@
                     echo("<option value='14'>3:30 PM - 4:00 PM </option>");
                     echo("</select>");
 
-                    echo(" <br> Date Selection </br> <select name = 'dateList' form='getAppts'>");
+                    echo(" <br> Date Selection </br> <select name = 'dateList' form='getAppts' class='form-control'>");
                     echo("<option value='Any'>Any</option>");
                     $today = getDateFromTable($common);
                     for($i = 1; $i <= getNumberOfDays(); $i++ )
@@ -98,25 +97,37 @@
                         $todayS = $today->toStringWithWeekday();
                         echo($todayS);
                         echo("<option value=$i>$todayS</option>");
-                        if ($today->dayOfWeek == "Friday")
-                        {
-                            $today = $today->incrementToNextWeekday();
-                        }
-                        else
-                        {
-                            $today = $today->IncrementDay();
-                        }
+                        $today = $today->incrementToNextWeekday();
 
                     }
+                    echo("</select>");
+
                     echo("<input type = 'hidden' name='name' value='$name'</input>");
                     echo("<input type = 'hidden' name='major' value='$major'</input>");
                     echo("<input type = 'hidden' name='studentID' value='$studentID'</input>");
 
-                    echo("<br> <br>");
-                    echo ("<input type = 'radio' name = 'apptType' value='I' required='required' checked= 'checked'> Individual </input>");
-                    echo ("<input type = 'radio' name = 'apptType' value='G' required='required'> Group </input>");
-                    echo("</select>");
-                    echo("<br><input type='submit' value='Search' name='submit' class='btn btn-default'>");
+
+                    echo("<br> Appointment Type: <br>");
+                    //ensure the users selection is retained on hitting search
+                    if(empty($apptType))
+                    {
+                        echo ("<input type = 'radio' name = 'apptType' value='I' required='required'> Individual </input>");
+                        echo ("<input type = 'radio' name = 'apptType' value='G' required='required'> Group </input>");
+                    }
+                    else if($apptType == 'I' )
+                    {
+                        echo ("<input type = 'radio' name = 'apptType' value='I' required='required' checked= 'checked'> Individual </input>");
+                        echo ("<input type = 'radio' name = 'apptType' value='G' required='required'> Group </input>");
+                    }
+                    else if($apptType == 'G')
+                    {
+                        echo ("<input type = 'radio' name = 'apptType' value='I' required='required'> Individual </input>");
+                        echo ("<input type = 'radio' name = 'apptType' value='G' required='required' checked='checked'> Group </input>");
+                    }
+
+
+                    echo("<br>");
+                    echo("<br><input type='submit' value='Search' name='submit' class='btn btn-default center-block'>");
                     echo("</form>");
                 }
                 else //if they already have an appointment, display options to cancel appointment.
@@ -132,7 +143,7 @@
                     echo("You are Currently Registered for the following appointment: <br> ");
                     echo("<br> Date: " .  $date . "<br> At: "  . $time .  "<br> Adviser: " . $adviser);
                     echo("<br> Would you like to cancel your Appointment?: ");
-                    echo("<form action='cancel_appointment.php' method='post'>");
+                    echo("<form action='cancel_appointment.php' method='post' class='form-control'>");
                     echo("<input type = 'hidden' name='studentID' value='$studentID'</input>");
                     echo("<input type = 'hidden' name='slotID' value='$slotID'</input>");
                     echo("<br><input type='submit' value='Cancel Appointment' name='submit' class='btn btn-default'>");
@@ -177,7 +188,7 @@
                     $query = $query . " FROM " . getMainTableName();
                     if ($adviser != "Any")
                         $query = $query . " WHERE adviser_id = '" . $adviser . "'";
-                    echo("<table border='1' style='width:50%'>");
+                    echo("<table border='1' class='table table-bordered' style='width:50%  background-color:#fff'>");
                     echo("<tr>");
                     echo("<th><center>Schedule</center></th>");
                     echo("<th>Date</th>");
@@ -187,25 +198,28 @@
                     echo("<form name = 'selectAppointment' action='register_appointment.php' method='post' id='scheduleAppts'>");
                     //loop through all selected rows in main table
                     $adviserResult = $common->executeQuery($query, "get_adviserList");
-                    while ($adviserRow = mysql_fetch_array($adviserResult, MYSQL_ASSOC)) {
-
+                    while ($adviserRow = mysql_fetch_array($adviserResult, MYSQL_ASSOC))
+                    {
                         $adviserName = $adviserRow['adviser_name']; //Used For Displaying Adviser Name to user
                         $adviserNum = $adviserRow['adviser_num'] - 1; //Used For Algorithm Calculation
 
                         //make an array of all the Day IDs for that advisor
                         $dayIDs = array();
-                        for ($i = $minDay + ($adviserNum * getNumberOfDays()); $i <= $maxDay + ($adviserNum * getNumberOfDays()); ++$i) {
+                        for ($i = $minDay + ($adviserNum * getNumberOfDays()); $i <= $maxDay + ($adviserNum * getNumberOfDays()); ++$i)
+                        {
                             array_push($dayIDs, $i);
                         }
 
 
                         //Create Slot Query
                         $query = "SELECT day_id ";
-                        for ($j = $minSlot; $j <= $maxSlot; $j++) {
+                        for ($j = $minSlot; $j <= $maxSlot; $j++)
+                        {
                             $query = $query . ", slot" . $j . " ";
                         }
                         $query = $query . "FROM " . getDaysTableName();
                         $query = $query . " WHERE day_id IN (" . implode($dayIDs, ',') . ' )';
+
 
                         //loop through all select rows in Day Table
                         $slotRS = $common->executeQuery($query, "Get Slots");
@@ -216,15 +230,16 @@
 
                             //get formatted Date
                             $today = getDateFromTable($common);
-                            for ($i = 1; $i < $appointmentDay; $i++) {
-                                $today = $today->IncrementDay();
-                            }
+                            for ($i = 1; $i < $appointmentDay; $i++)
+                                $today = $today->incrementToNextWeekday();
+
+
                             $appointmentDayS = $today->toStringWithWeekday();
                             $appointmentDayP = $today->toString();
                             //Make an Array of all the slot IDs for that day
                             $slotIDs = array();
-                            for ($j = $minSlot + ($dayColumn * getAppointMentsInDay()); $j <= $maxSlot + ($dayColumn * getAppointmentsInDay()); $j++) {
-                                array_push($slotIDs, $j);
+                            for ($l = $minSlot + ($dayColumn * getAppointMentsInDay()); $l <= $maxSlot + ($dayColumn * getAppointmentsInDay()); $l++) {
+                                array_push($slotIDs, $l);
                             }
 
 
@@ -233,9 +248,9 @@
                             $query = "SELECT * FROM " . getSlotsTableName() . " WHERE (type = '" . $type . "') AND (slot_id IN (" . implode($slotIDs, ',') . ") AND ( (major = '" . $major . "') OR (major is NULL) )) ";
                             $appointmentRS = $common->executeQuery($query, "Get Appointments");
                             while ($appointmentRow = mysql_fetch_array($appointmentRS, MYSQL_ASSOC)) {
-
-                                if($type = 'G')
+                                if($type == 'G')
                                 {
+
                                     //find an open slot
                                     $insertSlot = "student";
                                     for ($k = 1; $k <= $appointmentRow['group_size']; $k++)
@@ -247,19 +262,18 @@
                                         }
                                     }
                                 }
-
-                                if($type = 'I')
+                                else if($type == 'I')
                                 {
                                     //see if the first slot isn't filled
-                                    $studentSlot = "student";
+                                    $insertSlot = "student";
                                     if($appointmentRow['student1'] != 'NULL')
-                                        $studentSlot = "student1";
+                                        $insertSlot = "student1";
                                 }
 
                                 //Display a radio button allowing the student to select that appointment
                                 if ($insertSlot != "student") {
                                     $slotID = $appointmentRow['slot_id'];
-                                    $timeS = printDate($slotID, $dayColumn);
+                                    $timeS = printTime($slotID, $dayColumn);
                                     echo("<tr>");
                                     echo("<td align = 'center' td width='50%'><input type='radio' name='apptSelect' value='$slotID,$appointmentDayP,$timeS,$adviserName,$insertSlot'>");
                                     echo("<input type='hidden' name='name' class='form-control' value='$name'>");
@@ -278,17 +292,17 @@
 
                     }
                     echo("</table>");
-                    echo("<br>");
+
 
                     echo("<input type='hidden' name='name' class='form-control' value='$name'>");
                     echo("<input type='hidden' name='studentID' class='form-control' value='$studentID'>");
-                    echo("<input type='submit' value='schedule' class='btn btn-default'>");
+                    echo("<input type='submit' value='Schedule' class='btn btn-default center-block' style='center'>");
                     echo("</form> <br>");
                 }
 
 
 
-                function printDate($slotID, $dayID)
+                function printTime($slotID, $dayID)
                 {
                     $switchVal = $slotID - ($dayID * getAppointmentsInDay());
                     {
