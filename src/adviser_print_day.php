@@ -17,7 +17,7 @@ function getNameFromId($common, $id, $table) {
     $nameQuery = "SELECT * FROM $table WHERE student_id = '$id'";
     $rs = $common->executeQuery($nameQuery, "get_name");
     $row = mysql_fetch_array($rs);
-    return $row['student_name'];
+    return $row['student_first_name'] . " " . $row['student_last_name'];
 }
 
 $debug = false;
@@ -53,7 +53,7 @@ $rs = $common->executeQuery($query, "get_day_info");
 $row = mysql_fetch_array($rs);
 
 echo "<table>\n";
-for ($i = 1; $i <= 14; $i++) {
+for ($i = 1; $i <= getAppointmentsInDay(); $i++) {
     echo "<tr>\n";
     // Print time slots
     switch ($i) {
@@ -133,7 +133,7 @@ for ($i = 1; $i <= 14; $i++) {
         } else {
             print("Group: ".getNameFromId($common, $slotRow['student1'], $studentTable));
         }
-        for ($j = 2; $j <=10; $j++) {
+        for ($j = 2; $j <= getNumberOfDays(); $j++) {
             if (($slotRow["student$j"] == null)  || ($slotRow["student$j"] == "")) {
                 break;
             }

@@ -52,7 +52,7 @@ $date = getDateFromTable($common);
 
 echo "<table class=\"center\">\n";
 
-for ($i = 1; $i <= 10; $i++) {
+for ($i = 1; $i <= getNumberOfDays(); $i++) {
     echo "    <tr>\n";
     print("<td align='right'>");
     print($date->dayOfWeek);
