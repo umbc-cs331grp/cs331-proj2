@@ -22,7 +22,8 @@ function createTables($debug) {
 
     $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $STUDENTS_TABLE . "(
         student_id VARCHAR(7) NOT NULL PRIMARY KEY,
-        student_name TEXT NOT NULL,
+        student_first_name TEXT NOT NULL,
+        student_last_name TEXT NOT NULL,
         student_major TEXT NOT NULL,
         appointment_id VARCHAR(10),
         appointment_date VARCHAR(4),

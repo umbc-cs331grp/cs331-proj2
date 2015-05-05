@@ -31,7 +31,8 @@
 
                 //Declarations and Such
 
-                $name = @($_POST['name']);
+                $firstName = @($_POST['first-name']);
+                $lastName = @($_POST['last-name']);
                 $studentID = @($_POST['studentID']);
                 $major = @($_POST['major']);
                 $apptType = @($_POST['apptType']);
@@ -40,7 +41,7 @@
 
                 if (!rowExists($common, getStudentsTableName(), "student_id", $studentID))
                 {
-                    $query = "INSERT INTO " . getStudentsTableName() . "(student_id, student_name, student_major) VALUES ('" . $studentID . "', '" . $name . "', '" . $major . "')";
+                    $query = "INSERT INTO " . getStudentsTableName() . "(student_id, student_first_name, student_last_name, student_major) VALUES ('$studentID', '$firstName', '$lastName', '$major')";
                     $common->executeQuery($query,"student_insertion");
                 }
 
@@ -102,7 +103,8 @@
                     }
                     echo("</select>");
 
-                    echo("<input type = 'hidden' name='name' value='$name'</input>");
+                    echo("<input type = 'hidden' name='first-name' value='$firstName'</input>");
+                    echo("<input type = 'hidden' name='last-name' value='$lastName'</input>");
                     echo("<input type = 'hidden' name='major' value='$major'</input>");
                     echo("<input type = 'hidden' name='studentID' value='$studentID'</input>");
 
@@ -158,7 +160,8 @@
                     $date = @($_POST['dateList']);
                     $type = @($_POST['apptType']);
                     $major = @($_POST['major']);
-                    $name = @($_POST['name']);
+                    $firstName = @($_POST['first-name']);
+                    $lastName = @($_POST['last-name']);
                     $studentID = @($_POST['studentID']);
 
                     echo("<br>");
@@ -276,7 +279,8 @@
                                     $timeS = printTime($slotID, $dayColumn);
                                     echo("<tr>");
                                     echo("<td align = 'center' td width='50%'><input type='radio' name='apptSelect' value='$slotID,$appointmentDayP,$timeS,$adviserName,$insertSlot'>");
-                                    echo("<input type='hidden' name='name' class='form-control' value='$name'>");
+                                    echo("<input type='hidden' name='first-name' class='form-control' value='$firstName'>");
+                                    echo("<input type='hidden' name='last-name' class='form-control' value='$lastName'>");
                                     echo("<td>$appointmentDayS</td>");
                                     echo("<td>$timeS</td>");
                                     echo("<td>$adviserName</td>");
@@ -294,7 +298,8 @@
                     echo("</table>");
 
 
-                    echo("<input type='hidden' name='name' class='form-control' value='$name'>");
+                    echo("<input type='hidden' name='first-name' class='form-control' value='$firstName'>");
+                    echo("<input type='hidden' name='last-name' class='form-control' value='$lastName'>");
                     echo("<input type='hidden' name='studentID' class='form-control' value='$studentID'>");
                     echo("<input type='submit' value='Schedule' class='btn btn-default center-block' style='center'>");
                     echo("</form> <br>");

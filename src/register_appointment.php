@@ -26,7 +26,8 @@
 
             <?php
             include_once("tables.php");
-            $name = @($_POST['name']);
+            $firstName = @($_POST['first-name']);
+            $lastName = @($_POST['last-name']);
             $studentID = @($_POST['studentID']);
             $appointmentData = @($_POST['apptSelect']);
             $data = explode(',', $appointmentData);
