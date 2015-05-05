@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>UMBC CSEE Advising</title>
+    <title>UMBC COEIT Advising</title>
     <style type="text/css">
         td {
             padding: 4px;

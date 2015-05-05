@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>UMBC CSEE Advising</title>
+    <title>UMBC COEIT Advising</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="main_style.css">
     <style>
@@ -39,6 +39,7 @@ $dayNum = (int)$_POST['day_num'];
 $username = $_POST['username'];
 
 $common = new Common($debug);
+$individualStartDate = new Date(3, 23, "Monday");
 
 // Get day id
 $mainTable = getMainTableName();
@@ -57,7 +58,7 @@ $date = $date->getDateOfDay($dayNum);
 // Check if individual appointments should be available yet
 $individual = true;
 $columns = 8;
-if ($date->compare(new Date(3, 23)) == -1) {
+if ($date->compare($individualStartDate) == -1) {
     $individual = false;
     $columns = 7;
 }
