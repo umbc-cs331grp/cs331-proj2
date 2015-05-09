@@ -46,7 +46,9 @@
             $common->executeQuery($query, "Update_Student_Table");
 
             echo("Successfully registered for appointment: <br> Date: $date <br> From: $time  <br> Adviser: $adviser <br>");
-            echo("This page can now be closed.");
+            echo "<form name='back_to_signup' action='Student_login.html'>";
+            echo " <input type=\"submit\" value=\"Return to login\" class='btn btn-default center-block'>\n";
+            echo "</form>\n";
             ?>
 
             </div>
