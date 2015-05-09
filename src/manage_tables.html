@@ -27,26 +27,39 @@
                 <table class="center">
                     <tr>
                         <td align="center">
-                            <form target="_blank" action="adviser_login.html">
-                                <input type="submit" value="Adviser Login" class="btn btn-default">
+                            <form method="post" action="manage_table_action.php">
+                                <input type="hidden" name="action" value="drop">
+                                <input type="submit" value="Drop Tables" class="btn btn-default">
                             </form>
                         </td>
                     </tr>
                     <tr>
                         <td align="center">
-                            <form target="_blank" action="Student_login">
-                                <input type="submit" value="Student Signup" class="btn btn-default">
+                            <form method="post" action="manage_table_action.php">
+                                <input type="hidden" name="action" value="init">
+                                <input type="submit" value="Create Empty Tables" class="btn btn-default">
                             </form>
                         </td>
                     </tr>
                     <tr>
                         <td align="center">
-                            <form target="_blank" action="manage_main.html">
-                                <input type="submit" value="Manage" class="btn btn-default">
+                            <form method="post" action="manage_table_action.php">
+                                <input type="hidden" name="action" value="reset">
+                                <input type="submit" value="Reset Sample Data" class="btn btn-default">
                             </form>
                         </td>
                     </tr>
                 </table>
+
+                <br>
+                <table class="center">
+                    <tr><td>
+                        <form action="manage_main.html">
+                            <input type="submit" value="Return to Management Home" class="btn btn-default">
+                        </form>
+                    </td></tr>
+                </table>
+
 
             </div>
         </div>
