@@ -166,7 +166,7 @@ function setupRowForAdviser($common, $mainTable, $daysTable, $adviser_id, $advis
     for ($i = 1; $i <= getNumberOfDays(); $i++) {
         $query .= ", day$i";
     }
-    ") VALUES ('$adviser_id', '$adviser_name'";
+    $query .= ") VALUES ('$adviser_id', '$adviser_name'";
     for ($i = 1; $i <= getNumberOfDays(); $i++) {
         $dayID = setupRowForDay($common, $daysTable, getSlotsTableName());
         $query .= ", $dayID";
@@ -186,7 +186,7 @@ function setupRowForDay($common, $daysTable, $slotsTable) {
         }
         $query .= "slot$i";
     }
-    ") VALUES (";
+    $query .= ") VALUES (";
     for ($i = 1; $i <= getAppointmentsInDay(); $i++) {
         $slotQuery = "INSERT INTO " . $slotsTable . " (type) VALUES ('N')";
         $common->executeQuery($slotQuery, "init_slots");
