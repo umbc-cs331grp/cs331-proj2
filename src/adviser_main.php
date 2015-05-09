@@ -50,6 +50,8 @@ if (!rowExists($common, getMainTableName(), "adviser_id", $username)) {
 // Buttons for each of the days for editing availability and printing a schedule
 $date = getDateFromTable($common);
 
+$endDate = new Date(5, 1, "Friday");
+
 echo "<table class=\"center\">\n";
 
 for ($i = 1; $i <= getNumberOfDays(); $i++) {
@@ -77,6 +79,9 @@ for ($i = 1; $i <= getNumberOfDays(); $i++) {
     echo "    </tr>\n";
 
     $date = $date->incrementToNextWeekday();
+    if ($date->compare($endDate) == 1) {
+        break;
+    }
 }
 
 // Logout

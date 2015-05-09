@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>UMBC COEIT Advising</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="main_style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+            <div class="jumbotron"><h2 class="text-center">UMBC COEIT</h2><h2 class="text-center">Engineering and Computer Science Advising</h2></div>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <div id="box">
+
+                <table class="center">
+                    <tr>
+                        <td align="center">
+                            <form method="post" action="manage_date_action.php">
+                                <input type="hidden" name="month" value="3">
+                                <input type="hidden" name="day" value="2">
+                                <input type="hidden" name="day-of-week" value="Monday">
+                                <input type="submit" value="Set Date to Monday 3-2" class="btn btn-default">
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <form method="post" action="manage_date_action.php">
+                                <input type="hidden" name="month" value="3">
+                                <input type="hidden" name="day" value="18">
+                                <input type="hidden" name="day-of-week" value="Wednesday">
+                                <input type="submit" value="Set Date to Wednesday 3-18" class="btn btn-default">
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                            <form method="post" action="manage_date_action.php">
+                                <input type="hidden" name="month" value="4">
+                                <input type="hidden" name="day" value="27">
+                                <input type="hidden" name="day-of-week" value="Monday">
+                                <input type="submit" value="Set Date to Monday 4-27" class="btn btn-default">
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+
+                <br>
+                <table class="center">
+                    <tr><td>
+                        <form action="manage_main.html">
+                            <input type="submit" value="Return to Management Home" class="btn btn-default">
+                        </form>
+                    </td></tr>
+                </table>
+
+
+            </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
