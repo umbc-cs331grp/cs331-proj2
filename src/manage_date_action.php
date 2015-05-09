@@ -29,52 +29,36 @@
 $debug = false;
 include_once("CommonMethods.php");
 include_once("tables.php");
+include_once("Date.php");
 
-$name = $_POST['name'];
-$id = $_POST['id'];
+$month = $_POST['month'];
+$day = $_POST['day'];
+$dayOfWeek = $_POST['day-of-week'];
 
-// If for some reason name or id didn't post, won't create empty row
-if (empty($name) || empty($id)) {
+// If for some reason date didn't fully post
+if (empty($month) || empty($day) || empty($dayOfWeek)) {
     print("<table class='center'><tr><td>An error has occurred. Please try again later.</td></tr></table>");
     return;
 }
 
-createTables($debug);
+$date = new Date($month, $day, $dayOfWeek);
 
 $common = new Common($debug);
 
-if (rowExists($common, getMainTableName(), "adviser_id", $id)) {
-    echo "<table class='center'>";
-    echo "  <tr align='center'>";
-    echo "    <td>$name is already an adviser.</td>";
-    echo "  </tr>";
-    echo "  <tr align='center'>";
-    echo "    <td>";
-    echo "      <form action='add_adviser.html'>";
-    echo "          <input type='submit' value='Add a Different Adviser' class='btn btn-default'>";
-    echo "      </form>";
-    echo "    </td>";
-    echo "  <tr>";
-    echo "</table>";
-} else {
-    setupRowForAdviser($common, getMainTableName(), getDaysTableName(), $id, $name);
-    echo "<table class='center'>";
-    echo "  <tr align='center'>";
-    echo "    <td>Added $name as an adviser.</td>";
-    echo "  </tr>";
-    echo "  <tr align='center'>";
-    echo "    <td>";
-    echo "      <form action='add_adviser.html'>";
-    echo "          <input type='submit' value='Add Another Adviser' class='btn btn-default'>";
-    echo "      </form>";
-    echo "    </td>";
-    echo "  <tr>";
-    echo "</table>";
-}
+updateDateInTable($date, $common);
+
+echo "<table class='center'><tr><td>Set date to " . $date->dayOfWeek . " " . $date->toString() . "</td></tr></table>";
 
 ?>
 
                 <br>
+                <table class="center">
+                    <tr><td>
+                            <form action="manage_date.html">
+                                <input type="submit" value="Return to Date Management" class="btn btn-default">
+                            </form>
+                        </td></tr>
+                </table>
                 <table class="center">
                     <tr><td>
                             <form action="manage_main.html">

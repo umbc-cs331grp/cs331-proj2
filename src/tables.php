@@ -10,6 +10,7 @@ $STUDENTS_TABLE = "tbl_advising_students";
 $DATE_TABLE = "tbl_advising_date";
 $APPOINTMENTS_IN_DAY = 14;
 $NUMBER_DAYS = 10;
+$NUM_STUDENTS_PER_SLOT = 10;
 $START_MONTH = 3;
 $START_DAY = 2;
 $START_DAY_OF_WEEK = "Monday";
@@ -36,57 +37,31 @@ function createTables($debug) {
     $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $MAIN_TABLE . "(
         adviser_num INT(4) AUTO_INCREMENT NOT NULL PRIMARY KEY,
         adviser_id VARCHAR(20) NOT NULL,
-        adviser_name TEXT NOT NULL,
-        day1 INT(8) NOT NULL,
-        day2 INT(8) NOT NULL,
-        day3 INT(8) NOT NULL,
-        day4 INT(8) NOT NULL,
-        day5 INT(8) NOT NULL,
-        day6 INT(8) NOT NULL,
-        day7 INT(8) NOT NULL,
-        day8 INT(8) NOT NULL,
-        day9 INT(8) NOT NULL,
-        day10 INT(8) NOT NULL
-        ) ";
+        adviser_name TEXT NOT NULL";
+    for ($i = 1; $i <= getNumberOfDays(); $i++) {
+        $createTableQuery .= ", day$i INT(3) NOT NULL";
+    }
+    $createTableQuery .= ")";
     $common->executeQuery($createTableQuery, "main_setup");
 
 
     $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $DAYS_TABLE . "(
-        day_id INT(4) UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-        slot1 INT(8) NOT NULL,
-        slot2 INT(8) NOT NULL,
-        slot3 INT(8) NOT NULL,
-        slot4 INT(8) NOT NULL,
-        slot5 INT(8) NOT NULL,
-        slot6 INT(8) NOT NULL,
-        slot7 INT(8) NOT NULL,
-        slot8 INT(8) NOT NULL,
-        slot9 INT(8) NOT NULL,
-        slot10 INT(8) NOT NULL,
-        slot11 INT(8) NOT NULL,
-        slot12 INT(8) NOT NULL,
-        slot13 INT(8) NOT NULL,
-        slot14 INT(8) NOT NULL,
-        weekly TINYINT(1) NOT NULL DEFAULT '0'
-        )";
+        day_id INT(4) UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY, ";
+    for ($i = 1; $i <= getAppointmentsInDay(); $i++) {
+        $createTableQuery .= "slot$i INT(4) NOT NULL, ";
+    }
+    $createTableQuery .= "weekly TINYINT(1) NOT NULL DEFAULT '0')";
     $common->executeQuery($createTableQuery, "days_setup");
 
     $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $SLOTS_TABLE . "(
         slot_id INT(8) UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
         type CHAR NOT NULL,
         group_size TINYINT UNSIGNED NOT NULL DEFAULT 10,
-        major VARCHAR(4),
-        student1 TEXT,
-        student2 TEXT,
-        student3 TEXT,
-        student4 TEXT,
-        student5 TEXT,
-        student6 TEXT,
-        student7 TEXT,
-        student8 TEXT,
-        student9 TEXT,
-        student10 TEXT
-        )";
+        major VARCHAR(4)";
+    for ($i = 1; $i <= getNumStudentsPerSlot(); $i++) {
+        $createTableQuery .= ", student$i TEXT";
+    }
+    $createTableQuery .= ")";
     $common->executeQuery($createTableQuery, "slots_setup");
 
     $createTableQuery = "CREATE TABLE IF NOT EXISTS " . $DATE_TABLE . "(
@@ -116,6 +91,11 @@ function getDaysTableName() {
     return $DAYS_TABLE;
 }
 
+function getDateTableName() {
+    global $DATE_TABLE;
+    return $DATE_TABLE;
+}
+
 function getAppointmentsInDay() {
     global $APPOINTMENTS_IN_DAY;
     return $APPOINTMENTS_IN_DAY;
@@ -125,6 +105,11 @@ function getNumberOfDays()
 {
     global $NUMBER_DAYS;
     return $NUMBER_DAYS;
+}
+
+function getNumStudentsPerSlot() {
+    global $NUM_STUDENTS_PER_SLOT;
+    return $NUM_STUDENTS_PER_SLOT;
 }
 
 // Gets the name of the slots table
@@ -177,10 +162,11 @@ function rowExists($common, $table, $field, $value) {
 // Sets up the row for a specific adviser.
 // DOES NOT CHECK IF ROW ALREADY EXISTS - you must do that before calling this function, or it may fail and crash
 function setupRowForAdviser($common, $mainTable, $daysTable, $adviser_id, $adviser_name) {
-    $query = "INSERT INTO " . $mainTable .
-        " (adviser_id, adviser_name, day1, day2, day3, day4, day5, day6, day7,
-        day8, day9, day10)
-        VALUES ('" . $adviser_id . "', '" . $adviser_name . "'";
+    $query = "INSERT INTO $mainTable (adviser_id, adviser_name";
+    for ($i = 1; $i <= getNumberOfDays(); $i++) {
+        $query .= ", day$i";
+    }
+    $query .= ") VALUES ('$adviser_id', '$adviser_name'";
     for ($i = 1; $i <= getNumberOfDays(); $i++) {
         $dayID = setupRowForDay($common, $daysTable, getSlotsTableName());
         $query .= ", $dayID";
@@ -193,10 +179,14 @@ function setupRowForAdviser($common, $mainTable, $daysTable, $adviser_id, $advis
 // Sets up the row for a day.
 // Returns the day_id
 function setupRowForDay($common, $daysTable, $slotsTable) {
-    $query = "INSERT INTO " . $daysTable .
-        " (slot1, slot2, slot3, slot4, slot5, slot6, slot7,
-        slot8, slot9, slot10, slot11, slot12, slot13, slot14)
-        VALUES (";
+    $query = "INSERT INTO $daysTable (";
+    for ($i = 1; $i <= getAppointmentsInDay(); $i++) {
+        if ($i > 1) {
+            $query .= ", ";
+        }
+        $query .= "slot$i";
+    }
+    $query .= ") VALUES (";
     for ($i = 1; $i <= getAppointmentsInDay(); $i++) {
         $slotQuery = "INSERT INTO " . $slotsTable . " (type) VALUES ('N')";
         $common->executeQuery($slotQuery, "init_slots");
