@@ -30,8 +30,8 @@ $debug = false;
 include_once("CommonMethods.php");
 include_once("tables.php");
 
-$name = $_POST['name'];
-$id = $_POST['id'];
+$name = mysql_real_escape_string(htmlspecialchars($_POST['name']));
+$id = mysql_real_escape_string(htmlspecialchars($_POST['id']));
 
 // If for some reason name or id didn't post, won't create empty row
 if (empty($name) || empty($id)) {

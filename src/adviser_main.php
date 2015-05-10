@@ -29,7 +29,7 @@
 $debug = false;
 include_once("tables.php");
 
-$username = $_POST['username'];
+$username = mysql_real_escape_string(htmlspecialchars($_POST['username']));
 
 // Main part
 createTables($debug);

@@ -37,6 +37,13 @@
                 $studentID = strtoupper(@($_POST['studentID']));
                 $major = @($_POST['major']);
                 $apptType = @($_POST['apptType']);
+
+                if (!empty($_POST['initial-signup'])) {
+                    $firstName = mysql_real_escape_string(htmlspecialchars($firstName));
+                    $lastName = mysql_real_escape_string(htmlspecialchars($lastName));
+                    $studentID = mysql_real_escape_string(htmlspecialchars($studentID));
+                }
+
                 $common = new common($debug);
 
 
