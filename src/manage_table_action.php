@@ -59,7 +59,7 @@ switch ($action) {
     case "reset":
         drop($common);
         // TODO fix with actual sample data
-        //createSampleData($common);
+        createSampleData($common);
         echo "<table class='center'><tr><td>Successfully reset sample data.</td></tr></table>";
         break;
 }
