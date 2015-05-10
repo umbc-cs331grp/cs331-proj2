@@ -264,11 +264,12 @@
                             $query = "SELECT * FROM " . getSlotsTableName() . " WHERE (type = '" . $type . "') AND (slot_id IN (" . implode($slotIDs, ',') . ") AND ( (major = '" . $major . "') OR (major is NULL) )) ";
                             $appointmentRS = $common->executeQuery($query, "Get Appointments");
                             while ($appointmentRow = mysql_fetch_array($appointmentRS, MYSQL_ASSOC)) {
+                                $insertSlot = "student";
                                 if($type == 'G')
                                 {
 
                                     //find an open slot
-                                    $insertSlot = "student";
+
                                     for ($k = 1; $k <= $appointmentRow['group_size']; $k++)
                                     {
                                         if (empty($appointmentRow[$insertSlot . $k]))
@@ -281,8 +282,7 @@
                                 else if($type == 'I')
                                 {
                                     //see if the first slot isn't filled
-                                    $insertSlot = "student";
-                                    if($appointmentRow['student1'] != 'NULL')
+                                    if(empty($appointmentRow['student1']))
                                         $insertSlot = "student1";
                                 }
 
