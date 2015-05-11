@@ -27,14 +27,18 @@
 <?php
 
 $debug = false;
+include_once("CommonMethods.php");
 include_once("tables.php");
 
-$username = $_POST['username'];
-
-// Main part
+// Just in case they don't exist
 createTables($debug);
 
 $common = new Common($debug);
+
+$username = mysql_real_escape_string(htmlspecialchars($_POST['username']), $common->conn);
+
+// Main part
+
 
 if (!rowExists($common, getMainTableName(), "adviser_id", $username)) {
     echo "<table>";
@@ -89,7 +93,7 @@ echo "    <tr>\n";
 echo "        <td colspan='4' align='center'>\n";
 echo "    <br>\n";
 echo "<form name=\"logout\" action=\"adviser_login.html\">\n";
-echo "    <input type=\"submit\" value=\"Logout\" class='btn btn-default'>\n";
+echo "    <input type=\"submit\" value=\"Logout\" class='btn btn-danger'>\n";
 echo "</form>\n";
 echo "        </td>";
 echo "    </tr>\n";
