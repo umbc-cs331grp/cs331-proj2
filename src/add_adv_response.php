@@ -1,3 +1,9 @@
+<?php
+if (empty($_POST['name']) || empty($_POST['id'])) {
+    header("Location: add_adviser.html");
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -37,12 +43,6 @@ $common = new Common($debug);
 
 $name = mysql_real_escape_string(htmlspecialchars($_POST['name']), $common->conn);
 $id = mysql_real_escape_string(htmlspecialchars($_POST['id']), $common->conn);
-
-// If for some reason name or id didn't post, won't create empty row
-if (empty($name) || empty($id)) {
-    print("<table class='center'><tr><td>An error has occurred. Please try again later.</td></tr></table>");
-    return;
-}
 
 if (rowExists($common, getMainTableName(), "adviser_id", $id)) {
     echo "<table class='center'>";

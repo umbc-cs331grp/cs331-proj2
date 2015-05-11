@@ -1,3 +1,9 @@
+<?php
+if (empty($_POST['action'])) {
+    header("Location: manage_tables.html");
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
