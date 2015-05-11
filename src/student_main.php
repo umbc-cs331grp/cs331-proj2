@@ -1,3 +1,14 @@
+<?php
+$firstName = $_POST['first-name'];
+if(empty($firstName))
+{
+    header('Location: Student_login.html');
+    exit();
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -37,7 +48,17 @@
                 $studentID = strtoupper(@($_POST['studentID']));
                 $major = @($_POST['major']);
                 $apptType = @($_POST['apptType']);
+
+
+
                 $common = new common($debug);
+
+                if (!empty($_POST['initial-signup'])) {
+                    $firstName = mysql_real_escape_string(htmlspecialchars($firstName), $common->conn);
+                    $lastName = mysql_real_escape_string(htmlspecialchars($lastName), $common->conn);
+                    $studentID = mysql_real_escape_string(htmlspecialchars($studentID), $common->conn);
+                }
+
 
 
                 $appointmentFound = false; //used at the very end to determine if we should show the schedule button
@@ -67,7 +88,7 @@
                     echo("<table class='center'>");
                     echo("<tr> <td>");
                     echo("<form action = '' method='post' id = 'getAppts'>");
-                    echo("Advisor Selection <br>");
+                    echo("<b>Advisor Selection</b> <br>");
                     echo("<select name = 'adviserList' form='getAppts' class='form-control'>");
                     echo("<option value='Any'>Any</option>");
                     while($row = mysql_fetch_array($rs, MYSQL_NUM))
@@ -78,7 +99,7 @@
                     echo("</select>");
 
                     echo("<tr> <td>");
-                    echo(" <br> Time Selection </br> <select name = 'timeList' form='getAppts' class='form-control'>");
+                    echo(" <br><b>Time Selection</b> </br> <select name = 'timeList' form='getAppts' class='form-control'>");
                     echo("<option value='Any'>Any</option>");
                     echo("<option value='1'>9:00 AM   - 9:30 AM</option>");
                     echo("<option value='2'>9:30 AM - 10:00 AM</option>");
@@ -98,7 +119,7 @@
                     echo("</tr> </td>");
 
                     echo("<tr> <td>");
-                    echo(" <br> Date Selection </br> <select name = 'dateList' form='getAppts' class='form-control'>");
+                    echo(" <br><b>Date Selection</b></br> <select name = 'dateList' form='getAppts' class='form-control'>");
                     echo("<option value='Any'>Any</option>");
                     $today = getDateFromTable($common);
                     for($i = 1; $i <= getNumberOfDays(); $i++ )
@@ -118,7 +139,7 @@
                     echo("<input type = 'hidden' name='studentID' value='$studentID'</input>");
 
                     echo("<tr> <td>");
-                    echo("<br> Appointment Type: <br>");
+                    echo("<br><b>Appointment Type:</b><br>");
                     //ensure the users selection is retained on hitting search
                     if(empty($apptType))
                     {
@@ -153,15 +174,17 @@
                     $time =  $studentRow['appointment_time'];
                     $adviser =  $studentRow['appointment_adviser'];
                     $slotID =  $studentRow['appointment_id'];
-                    echo("You are Currently Registered for the following appointment: <br> ");
-                    echo("<br> Date: " .  $date . "<br> Time: "  . $time .  "<br> Adviser: " . $adviser . "<br>");
-                    echo("<br> Would you like to cancel your Appointment? ");
+                    echo("<b>You are currently registered for the following appointment:</b> <br> ");
+                    echo("<br> <b>Date:</b> " .  $date . "<br> <b>Time:</b> "  . $time .  "<br> <b>Adviser:</b> " . $adviser . "<br>");
+                    //echo("<br> Would you like to cancel your Appointment? ");
                     echo("<form action='cancel_appointment.php' method='post'>");
                     echo("<input type = 'hidden' name='studentID' value='$studentID'</input>");
                     echo("<input type = 'hidden' name='slotID' value='$slotID'</input>");
-                    echo("<br> <input type='submit' value='Cancel Appointment' name='submit' class='btn btn-default center-block'>");
+                    echo("<br> <input type='submit' value='Cancel Appointment' name='submit' class='btn btn-danger center-block'>");
                     echo("</form>");
-
+                    echo("<form action='Student_login.html'>");
+                    echo("<br> <input type='submit' value='Return To Login' name='submitLogin' class='btn btn-default center-block'>");
+                    echo("</form>");
 
                 }
 
@@ -316,7 +339,7 @@
                     echo("<input type='hidden' name='last-name' class='form-control' value='$lastName'>");
                     echo("<input type='hidden' name='studentID' class='form-control' value='$studentID'>");
                     if($appointmentFound)
-                        echo("<input type='submit' value='Schedule' class='btn btn-default center-block' style='center'>");
+                        echo("<input type='submit' value='Schedule' class='btn btn-success center-block' style='center'>");
                     else
                         echo("No appointments found matching your search paramaters, try again.");
                     echo("</form> <br>");

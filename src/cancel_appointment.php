@@ -1,3 +1,12 @@
+<?php
+$studentID = $_POST['studentID'];
+if(empty($studentID))
+{
+    header('Location: Student_login.html');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head lang="en">

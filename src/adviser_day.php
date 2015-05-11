@@ -255,7 +255,7 @@ if ($dayNum > (getNumberOfDays() - 5)) {
 
 // Button to update schedule
 echo "<tr><td colspan='$columns' align='center'>";
-echo "<input type=\"submit\" value=\"Update\" class='btn btn-default'>";
+echo "<input type=\"submit\" value=\"Update\" class='btn btn-success'>";
 echo "</td>";
 
 echo "</table>\n";
