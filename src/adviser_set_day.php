@@ -1,3 +1,9 @@
+<?php
+if (empty($_POST['username']) || empty($_POST['day_num']) || empty($_POST['day_id']) || empty($_POST['weekly'])) {
+    header("Location: adviser_login.html");
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head lang="en">

@@ -1,3 +1,9 @@
+<?php
+if (empty($_POST['month']) || empty($_POST['day']) || empty($_POST['day-of-week'])) {
+    header("Location: manage_date.html");
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
