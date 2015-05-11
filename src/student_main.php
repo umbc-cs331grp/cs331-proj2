@@ -38,13 +38,14 @@
                 $major = @($_POST['major']);
                 $apptType = @($_POST['apptType']);
 
+                $common = new common($debug);
+
                 if (!empty($_POST['initial-signup'])) {
-                    $firstName = mysql_real_escape_string(htmlspecialchars($firstName));
-                    $lastName = mysql_real_escape_string(htmlspecialchars($lastName));
-                    $studentID = mysql_real_escape_string(htmlspecialchars($studentID));
+                    $firstName = mysql_real_escape_string(htmlspecialchars($firstName), $common->conn);
+                    $lastName = mysql_real_escape_string(htmlspecialchars($lastName), $common->conn);
+                    $studentID = mysql_real_escape_string(htmlspecialchars($studentID), $common->conn);
                 }
 
-                $common = new common($debug);
 
 
                 $appointmentFound = false; //used at the very end to determine if we should show the schedule button

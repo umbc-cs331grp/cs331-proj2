@@ -27,14 +27,18 @@
 <?php
 
 $debug = false;
+include_once("CommonMethods.php");
 include_once("tables.php");
 
-$username = mysql_real_escape_string(htmlspecialchars($_POST['username']));
-
-// Main part
+// Just in case they don't exist
 createTables($debug);
 
 $common = new Common($debug);
+
+$username = mysql_real_escape_string(htmlspecialchars($_POST['username']), $common->conn);
+
+// Main part
+
 
 if (!rowExists($common, getMainTableName(), "adviser_id", $username)) {
     echo "<table>";
