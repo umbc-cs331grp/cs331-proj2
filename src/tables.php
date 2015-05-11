@@ -201,3 +201,10 @@ function setupRowForDay($common, $daysTable, $slotsTable) {
     $dayID = mysql_insert_id();
     return $dayID;
 }
+
+// Sets up the new day
+// doesnt return
+function newDay($common) {
+
+
+}
