@@ -93,7 +93,7 @@ echo "    <tr>\n";
 echo "        <td colspan='4' align='center'>\n";
 echo "    <br>\n";
 echo "<form name=\"logout\" action=\"adviser_login.html\">\n";
-echo "    <input type=\"submit\" value=\"Logout\" class='btn btn-default'>\n";
+echo "    <input type=\"submit\" value=\"Logout\" class='btn btn-danger'>\n";
 echo "</form>\n";
 echo "        </td>";
 echo "    </tr>\n";

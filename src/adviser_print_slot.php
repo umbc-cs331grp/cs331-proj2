@@ -108,7 +108,7 @@ if (($type == "N") || ($row['student1'] == null)) {
 
 // Print info about appointment otherwise
 if ($type == "I") {
-    print("<h5>Invididual</h5>");
+    print("<h5>Individual</h5>");
 } elseif ($type == "G") {
     print("<h5>Group</h5>");
 }
@@ -132,7 +132,7 @@ if ($type == "I") {
     $row = mysql_fetch_array($rs);
 
     echo "<tr>";
-    echo "<td>".$row['student_first_name']." ".$slotRow['student_last_name']."</td>";
+    echo "<td>".$row['student_first_name']." ".$row['student_last_name']."</td>";
     echo "<td>$student_id</td>";
     echo "<td>".$row['student_major']."</td>";
     echo "</tr>";
