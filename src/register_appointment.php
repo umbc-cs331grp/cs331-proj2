@@ -1,3 +1,14 @@
+<?php
+$firstName = $_POST['first-name'];
+
+
+if(empty($firstName))
+{
+    header('Location: Student_login.html');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
