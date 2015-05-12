@@ -1,7 +1,7 @@
 <?php
 if (empty($_POST['name']) || empty($_POST['id'])) {
     header("Location: add_adviser.html");
-    return;
+    exit;
 }
 ?>
 
