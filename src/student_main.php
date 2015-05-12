@@ -46,6 +46,10 @@ if(empty($firstName))
                 $studentID = strtoupper(@($_POST['studentID']));
                 $major = @($_POST['major']);
                 $apptType = @($_POST['apptType']);
+                $adviser = @($_POST['adviserList']);
+                $slot = @($_POST['timeList']);
+                $date = @($_POST['dateList']);
+                $type = @($_POST['apptType']);
 
                 $common = new common($debug);
 
@@ -89,30 +93,14 @@ if(empty($firstName))
                     echo("<option value='Any'>Any</option>");
                     while($row = mysql_fetch_array($rs, MYSQL_NUM))
                     {
-                        echo("<option value=$row[0]> $row[1] </option>");
+                        if ($adviser == $row[0])
+                            echo("<option value=$row[0] selected='selected'> $row[1] </option>");
+                        else {
+                            echo("<option value=$row[0]> $row[1] </option>");
+                        }
                     }
                     echo("</tr> </td>");
-                    echo("</select>");
 
-                    echo("<tr> <td>");
-                    echo(" <br><b> Time Selection</b> </br> <select name = 'timeList' form='getAppts' class='form-control'>");
-                    echo("<option value='Any'>Any</option>");
-                    echo("<option value='1'>9:00 AM   - 9:30 AM</option>");
-                    echo("<option value='2'>9:30 AM - 10:00 AM</option>");
-                    echo("<option value='3'>10:00 AM - 10:30 AM </option>");
-                    echo("<option value='4'>10:30 AM - 11:00 AM </option>");
-                    echo("<option value='5'>11:00 AM - 11:30 AM </option>");
-                    echo("<option value='6'>11:30 AM - 12:00 PM </option>");
-                    echo("<option value='7'>12:00 PM - 12:30 PM </option>");
-                    echo("<option value='8'>12:30 PM - 1:00 PM </option>");
-                    echo("<option value='9'>1:00 PM - 1:30 PM </option>");
-                    echo("<option value='10'>1:30 PM - 2:00 PM </option>");
-                    echo("<option value='11'>2:00 PM - 2:30 PM</option>");
-                    echo("<option value='12'>2:30 PM - 3:00 PM </option>");
-                    echo("<option value='13'>3:00 PM - 3:30 PM </option>");
-                    echo("<option value='14'>3:30 PM - 4:00 PM </option>");
-                    echo("</select>");
-                    echo("</tr> </td>");
 
                     echo("<tr> <td>");
                     echo(" <br><b>Date Selection</b> </br> <select name = 'dateList' form='getAppts' class='form-control'>");
@@ -120,12 +108,84 @@ if(empty($firstName))
                     $today = getDateFromTable($common);
                     for($i = 1; $i <= getNumberOfDays(); $i++ )
                     {
+
                         $todayS = $today->toStringWithWeekday();
                         echo($todayS);
-                        echo("<option value=$i>$todayS</option>");
+                        if($date == $i)
+                            echo("<option value=$i selected='selected'>$todayS</option>");
+                        else
+                            echo("<option value=$i>$todayS</option>");
+
                         $today = $today->incrementToNextWeekday();
 
                     }
+                    echo("</select>");
+                    echo("</tr> </td>");
+
+                    echo("</select>");
+
+                    echo("<tr> <td>");
+                    echo(" <br><b> Time Selection</b> </br> <select name = 'timeList' form='getAppts' class='form-control'>");
+                    echo("<option value='Any'>Any</option>");
+                    for($i = 1; $i <= 14; $i++)
+                    {
+                        $timeString;
+                        switch  ($i){
+                            case 1:
+                                $timeString = "9:00 AM - 9:30 AM";
+                                break;
+                            case 2:
+                                $timeString = "9:30 AM - 10:00 AM";
+                                break;
+                            case 3:
+                                $timeString = "10:00 AM - 10:30 AM";
+                                break;
+                            case 4:
+                                $timeString = "10:30 AM - 11:00 AM";
+                                break;
+                            case 5:
+                                $timeString = "11:00 AM - 11:30 AM";
+                                break;
+                            case 6:
+                                $timeString = "11:30 AM - 12:00 AM";
+                                break;
+                            case 7:
+                                $timeString = "12:00 PM - 12:30 PM";
+                                break;
+                            case 8:
+                                $timeString = "12:30 PM -1:00 PM";
+                                break;
+                            case 9:
+                                $timeString = "1:00 PM  - 1:30 PM";
+                                break;
+                            case 10:
+                                $timeString = "1:30 PM  - 2:00 PM";
+                                break;
+                            case 11:
+                                $timeString = "2:00 PM  - 2:30 PM";
+                                break;
+                            case 12:
+                                $timeString = "2:30 PM  - 3:00 PM";
+                                break;
+                            case 13:
+                                $timeString = "3:00 PM  - 3:30 PM";
+                                break;
+                            case 14:
+                                $timeString = "3:30 PM - 4:00 PM";
+                                break;
+                        }
+
+                        if($i == $slot)
+                        {
+                            echo("<option value=$i selected='selected'>$timeString</option>");
+                        }
+                        else
+                        {
+                            echo("<option value=$i>$timeString</option>");
+                        }
+
+                    }
+
                     echo("</select>");
                     echo("</tr> </td>");
 
