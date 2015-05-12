@@ -75,9 +75,9 @@ echo $date->dayOfWeek;
 echo " " . $date->toString();
 echo "</h4>";
 
-/*if (!rowExists($common, $daysTable, "day", $dayNum)) {
-    setupRowForDay($common, $daysTable, $slotsTable, $dayNum);
-}*/
+if(!$individual) {
+    echo "<h6 align='center'>Individual appointments start 3-23</h6>";
+}
 
 // Get data for day
 $query = "SELECT * FROM $daysTable WHERE day_id = $day_id";
