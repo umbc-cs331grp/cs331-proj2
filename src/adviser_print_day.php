@@ -1,6 +1,7 @@
 <?php
 if (empty($_POST['username']) || empty($_POST['day_num'])) {
     header("Location: adviser_login.html");
+    exit;
 }
 ?>
 
