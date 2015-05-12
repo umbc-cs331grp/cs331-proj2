@@ -127,7 +127,7 @@ if(empty($firstName))
                     echo("<tr> <td>");
                     echo(" <br><b> Time Selection</b> </br> <select name = 'timeList' form='getAppts' class='form-control'>");
                     echo("<option value='Any'>Any</option>");
-                    for($i = 1; $i <= 14; $i++)
+                    for($i = 1; $i <= getAppointmentsInday(); $i++)
                     {
                         $timeString;
                         switch  ($i){
