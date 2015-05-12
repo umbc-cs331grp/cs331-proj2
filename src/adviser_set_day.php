@@ -1,5 +1,5 @@
 <?php
-if (empty($_POST['username']) || empty($_POST['day_num']) || empty($_POST['day_id']) || empty($_POST['weekly'])) {
+if (empty($_POST['username']) || empty($_POST['day_num']) || empty($_POST['day_id'])) {
     header("Location: adviser_login.html");
 }
 ?>
