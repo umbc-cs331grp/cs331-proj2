@@ -47,8 +47,8 @@ $username = mysql_real_escape_string(htmlspecialchars($_POST['username']), $comm
 
 
 if (!rowExists($common, getMainTableName(), "adviser_id", $username)) {
-    echo "<table>";
-    echo "<tr align='center'><td>You are not registered as an adviser.<br>If you believe this is in error, please contact the head of the department to resolve the issue.</td></tr>";
+    echo "<table class='center'>";
+    echo "<tr align='center'><td>You are not registered as an adviser.<br>If you believe this is in error, please contact<br>the head of the department to resolve the issue.</td></tr>";
     echo "<tr align='center'><td>";
     echo "<form name=\"logout\" action=\"adviser_login.html\">\n";
     echo "    <input type=\"submit\" value=\"Return to Login\" class='btn btn-default'>\n";
