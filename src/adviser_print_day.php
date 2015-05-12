@@ -131,7 +131,7 @@ for ($i = 1; $i <= getAppointmentsInDay(); $i++) {
         if (($slotRow['student1'] == null) || ($slotRow['student1'] == "")) {
             print("[No Appointment]");
         } else {
-            print("Invididual: ". getNameFromId($common, $slotRow['student1'], $studentTable));
+            print("Individual: ". getNameFromId($common, $slotRow['student1'], $studentTable));
         }
     } elseif ($slotType == "G") {
         if (($slotRow['student1'] == null) || ($slotRow['student1'] == "")) {
